@@ -6,5 +6,6 @@ public class APIEndpointConstants {
     }
     private static final String API_VERSION = "/api/v1";
     public static final String AUTHENTICATION_ENDPOINT = API_VERSION + "/auth";
+    public static final String LOCATION_ENDPOINT= API_VERSION + "/location";
 
 }
