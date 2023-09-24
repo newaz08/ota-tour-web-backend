@@ -11,9 +11,10 @@ import java.util.List;
 @Repository
 public interface PackageTagRepository extends JpaRepository<PackageTag,Short> {
 
-    @Query(value = "select pt.tag_name as tagName,count(pt.id) as tagCount from package_tag as pt inner join\n" +
-            "    tour_package_wise_tag_mapping as tptm on pt.id = tptm.package_tag_id \n" +
-            "group by pt.id, pt.tag_name",nativeQuery = true)
-    List<PackageTagResponse> findPackageTagWithCount();
+    @Query(value = "select pt.tag_name as tagName,count(pt.id) as tagCount from tour_package as tp" +
+            " inner join tour_package_wise_tag_mapping as tpwtm on tp.id = tpwtm.tour_package_id" +
+            " inner join package_tag pt on pt.id = tpwtm.package_tag_id" +
+            " where tp.location_id = :locationId group by pt.id,pt.tag_name",nativeQuery = true)
+    List<PackageTagResponse> findPackageTagWithCountByLocationId(Integer locationId);
 
 }

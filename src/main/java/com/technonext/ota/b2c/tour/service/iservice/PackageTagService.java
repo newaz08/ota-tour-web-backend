@@ -5,5 +5,5 @@ import com.technonext.ota.b2c.tour.dto.response.PackageTagResponse;
 import java.util.List;
 
 public interface PackageTagService {
-    List<PackageTagResponse> getPackageTags();
+    List<PackageTagResponse> getPackageTagsByLocation(Integer locationId);
 }
