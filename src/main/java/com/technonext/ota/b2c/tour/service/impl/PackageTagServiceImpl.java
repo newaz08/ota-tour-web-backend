@@ -17,4 +17,5 @@ public class PackageTagServiceImpl implements PackageTagService {
     public List<PackageTagResponse> getPackageTagsByLocation(Integer locationId) {
         return packageTagRepository.findPackageTagWithCountByLocationId(locationId);
     }
+
 }

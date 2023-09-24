@@ -57,4 +57,5 @@ public class TourPackage {
     private Short infantMin;
     private Short infantMax;
     private String travelTips;
+    private Double netPrice;
 }
