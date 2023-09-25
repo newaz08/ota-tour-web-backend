@@ -23,7 +23,7 @@ public class LocationController {
     @GetMapping ("/search")
     @Operation(summary = "API Endpoints for location searching")
     public ResponseEntity<List<LocationResponse>> search(@RequestParam(name="locationName") String locationName){
-        return new ResponseEntity<>(locationService.findByLocation(locationName), HttpStatus.OK);
+        return new ResponseEntity<>(locationService.getLocations(locationName), HttpStatus.OK);
     }
 
 }

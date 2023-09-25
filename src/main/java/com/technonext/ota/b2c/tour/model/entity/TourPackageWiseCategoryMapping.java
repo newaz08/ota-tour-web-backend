@@ -18,6 +18,11 @@ public class TourPackageWiseCategoryMapping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer tourPackageId;
-    private Short packageCategoryId;
+    @ManyToOne
+    @JoinColumn(name = "tourPackageId")
+    private TourPackage tourPackage;
+
+    @ManyToOne
+    @JoinColumn(name = "packageCategoryId")
+    private PackageCategory packageCategory;
 }

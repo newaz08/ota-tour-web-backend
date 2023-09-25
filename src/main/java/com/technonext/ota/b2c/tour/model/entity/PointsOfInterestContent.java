@@ -7,18 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "PointsOfInterestContents")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class PointsOfInterestContent {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer pointsOfInterestId;
+    @ManyToOne
+    @JoinColumn(name = "pointsOfInterestId")
+    private PointsOfInterest pointsOfInterest;
+
     private Byte contentType;
     private String mimeType;
     private String path;

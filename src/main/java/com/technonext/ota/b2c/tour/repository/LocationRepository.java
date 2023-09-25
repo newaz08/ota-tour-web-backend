@@ -8,11 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Map;
 
-public interface LocationRepository extends JpaRepository<Location, Integer> {
+public interface LocationRepository extends JpaRepository<Location, String> {
 
-    @Query(value = "SELECT * FROM tour.Location loc \n" +
-            "Where LocationName LIKE '%:locationName%'", nativeQuery = true)
-    List<Location> getLocations(@Param("locationName") String locationName);
-
-
+    @Query(value = "SELECT * FROM tour.Location as loc \n" +
+            "Where loc.LocationName LIKE %:locationName%", nativeQuery = true)
+    List<Location> findByLocation(String locationName);
 }

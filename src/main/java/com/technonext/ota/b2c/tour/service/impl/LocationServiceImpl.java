@@ -8,8 +8,6 @@ import com.technonext.ota.b2c.tour.service.iservice.LocationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-
 
 @Service
 public class LocationServiceImpl implements LocationService{
@@ -23,12 +21,9 @@ public class LocationServiceImpl implements LocationService{
         this.locationMapper = locationMapper;
     }
 
-
     @Override
-    public List<LocationResponse> findByLocation(String locationName) {
-       List<Location> locations = locationRepository.getLocations(locationName);
-        //List<Location> locations = locationRepository.findAll();
-        List<LocationResponse> locationResponses = locationMapper.toLocationResponseList(locations);
-        return locationResponses;
+    public List<LocationResponse> getLocations(String locationName) {
+       List<Location> locations = locationRepository.findByLocation(locationName);
+       return locationMapper.toLocationResponseList(locations);
     }
 }

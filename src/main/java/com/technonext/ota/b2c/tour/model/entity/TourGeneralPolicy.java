@@ -6,18 +6,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TourPackageWiseDiscountPolicyMapping {
+public class TourGeneralPolicy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer tourPackageId;
-    private Integer discountPolicyId;
+    private Double defaultMarkUp;
+    @ManyToOne
+    @JoinColumn(name = "createdBy")
+    private User createdBy;
+
+    private LocalDateTime createdDate;
+
+    @ManyToOne
+    @JoinColumn(name = "modifiedBy")
+    private User modifiedBy;
+
+    private LocalDateTime modifiedDate;
 }

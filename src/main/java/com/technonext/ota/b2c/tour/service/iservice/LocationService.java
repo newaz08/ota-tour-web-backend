@@ -6,5 +6,5 @@ import com.technonext.ota.b2c.tour.dto.response.LocationResponse;
 import java.util.List;
 
 public interface LocationService {
-    List<LocationResponse> findByLocation(String locationName);
+    List<LocationResponse> getLocations(String locationName);
 }

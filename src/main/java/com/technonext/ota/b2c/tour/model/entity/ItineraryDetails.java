@@ -20,10 +20,14 @@ public class ItineraryDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "iterneraryId")
-    private Integer itineraryId;
+    @ManyToOne
+    @JoinColumn(name = "itineraryId")
+    private TourPackageItinerary itinerary;
 
-    private Short itineraryElementId;
+    @ManyToOne
+    @JoinColumn(name = "itineraryElementId")
+    private ItineraryElement itineraryElement;
+
     private Time startTime;
     private Time endTime;
 }

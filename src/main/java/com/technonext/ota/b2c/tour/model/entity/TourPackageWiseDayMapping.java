@@ -19,7 +19,9 @@ public class TourPackageWiseDayMapping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer tourPackageId;
+    @ManyToOne
+    @JoinColumn(name = "tourPackageId")
+    private TourPackage tourPackage;
 
     @Enumerated(EnumType.STRING)
     private TourDay tourDay;

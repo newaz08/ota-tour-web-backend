@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PackageTag {
+public class PackageTag extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +21,6 @@ public class PackageTag {
     private String tagName;
     private String tagDescription;
     private Boolean isNextTripTag;
+    private Boolean isApplicableForHajjUmrah;
+    private String colorCode;
 }

@@ -18,8 +18,6 @@ public class RefundPolicyType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
-    @Column(name = "refundPolicyType")
     private String policyType;
-
     private Boolean isActive;
 }

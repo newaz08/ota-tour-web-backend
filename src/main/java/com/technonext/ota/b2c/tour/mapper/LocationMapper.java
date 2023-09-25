@@ -12,6 +12,4 @@ import java.util.Map;
 public interface LocationMapper {
     List<LocationResponse> toLocationResponseList(List<Location> locationList);
 
-    LocationResponse toLocationResponse(Location location);
-
 }
