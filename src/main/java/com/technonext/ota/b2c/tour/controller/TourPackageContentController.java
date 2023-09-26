@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.controller;
 
+import com.technonext.ota.b2c.tour.dto.response.TourPackageContentProjection;
 import com.technonext.ota.b2c.tour.dto.response.TourPackageContentResponse;
 import com.technonext.ota.b2c.tour.service.iservice.TourPackageContentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +18,7 @@ import static com.technonext.ota.b2c.tour.constant.APIEndpointConstants.TOUR_PAC
 
 @RestController
 @RequestMapping(TOUR_PACKAGE_CONTENT_ENDPOINT)
-@Tag(name = "TourPackageContent Controller", description = "API Endpoints for tourPackageContent related operations.")
+@Tag(name = "Tour Package Content Controller", description = "API Endpoints for Tour Package Content related operations.")
 public class TourPackageContentController {
     private final TourPackageContentService tourPackageContentService;
 
@@ -27,7 +28,7 @@ public class TourPackageContentController {
 
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for tourPackageContent searching")
-    public ResponseEntity<List<TourPackageContentResponse>> search(@RequestParam(name="id") Integer tourPackageId){
-        return new ResponseEntity<>(tourPackageContentService.getAllTourPackageContent(tourPackageId), HttpStatus.OK);
+    public ResponseEntity<List<TourPackageContentProjection>> search(@RequestParam(name="id") Integer tourPackageId){
+        return new ResponseEntity<>(tourPackageContentService.getAllTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
     }
 }
