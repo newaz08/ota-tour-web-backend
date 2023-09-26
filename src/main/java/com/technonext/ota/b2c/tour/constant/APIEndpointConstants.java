@@ -11,4 +11,6 @@ public class APIEndpointConstants {
     public static final String PACKAGE_TAG_ENDPOINT= API_VERSION + "/package-tag";
     public static final String TOUR_PACKAGE_CONTENT_ENDPOINT= API_VERSION + "/tourPackageContent";
 
+    public static final String PACKAGE_CATEGORY_ENDPOINT= API_VERSION + "/packageCategory";
+
 }
