@@ -17,5 +17,4 @@ public interface PackageTagRepository extends JpaRepository<PackageTag,Short> {
             " inner join tour.PackageTag pt on pt.id = tpwtm.PackageTagId" +
             " group by pt.id,pt.TagName",nativeQuery = true)
     List<PackageTagResponse> findPackageTagWithCountByLocationId(Integer locationId);
-
 }
