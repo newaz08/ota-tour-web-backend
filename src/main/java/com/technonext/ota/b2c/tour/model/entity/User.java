@@ -1,30 +1,33 @@
 package com.technonext.ota.b2c.tour.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.HashSet;
 
-
+@Entity
+@Table(name = "users", schema = "dbo")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Entity
+@Getter
+@Setter
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String password;
+    private String email;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new HashSet<>();
+    }
 
     @Override
     public String getPassword() {
@@ -34,10 +37,6 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<>();
     }
 
     @Override

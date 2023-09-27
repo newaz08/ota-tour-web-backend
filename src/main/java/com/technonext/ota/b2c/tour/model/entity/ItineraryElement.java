@@ -13,10 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItineraryElement {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
     private String iconName;
+
 }

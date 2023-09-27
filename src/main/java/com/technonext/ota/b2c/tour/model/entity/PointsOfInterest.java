@@ -18,7 +18,11 @@ public class PointsOfInterest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer locationId;
+    @ManyToOne
+    @JoinColumn(name = "locationId")
+    private Location location;
+
     private String poiName;
+    private String description;
     private Boolean isActive;
 }

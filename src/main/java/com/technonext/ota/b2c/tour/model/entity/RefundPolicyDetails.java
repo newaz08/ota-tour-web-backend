@@ -17,8 +17,15 @@ public class RefundPolicyDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Short policyId;
-    private Short policyTypeId;
+
+    @ManyToOne
+    @JoinColumn(name = "policyId")
+    private RefundPolicy refundPolicy;
+
+    @ManyToOne
+    @JoinColumn(name = "policyTypeId")
+    private RefundPolicyType refundPolicyType;
+
     private Integer refundPercentage;
     private Integer priorDays;
     private Integer refundAdjustmentDays;

@@ -18,6 +18,11 @@ public class TourPackageWiseChildPolicyMapping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer tourPackageId;
-    private Integer childPolicyId;
+    @ManyToOne
+    @JoinColumn(name = "tourPackageId")
+    private TourPackage tourPackage;
+
+    @ManyToOne
+    @JoinColumn(name = "childPolicyId")
+    private ChildPolicy childPolicy;
 }

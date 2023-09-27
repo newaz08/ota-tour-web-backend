@@ -12,18 +12,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Location extends AuditingEntity {
+public class TourCity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String locationName;
-    private String description;
-    private String latitude;
-    private String longitude;
-    private String locationMapLink;
-    private String weather;
-    private String localCurrency;
-    private String localLanguage;
+    @ManyToOne
+    @JoinColumn(name = "tourCountryId")
+    private TourCountry country;
+
+    private String cityName;
+    private String cityCode;
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "IterneraryContents")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,7 +18,10 @@ public class ItineraryContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer itineraryId;
+    @ManyToOne
+    @JoinColumn(name = "itineraryId")
+    private TourPackageItinerary itinerary;
+
     private Byte contentType;
     private String mimeType;
     private String path;

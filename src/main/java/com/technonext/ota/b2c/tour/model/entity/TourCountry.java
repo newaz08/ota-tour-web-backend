@@ -7,20 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "LocationContents")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class LocationContent {
+public class TourCountry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private Integer locationId;
-    private Byte contentType;
-    private String mimeType;
-    private String path;
-    private Byte position;
+    private String name;
+    private String code;
+    private Boolean isActive;
 }

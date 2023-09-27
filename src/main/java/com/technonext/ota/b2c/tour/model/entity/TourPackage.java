@@ -9,13 +9,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TourPackage {
+public class TourPackage extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +25,10 @@ public class TourPackage {
 
     private String packageName;
     private String packageCode;
-    private Integer locationId;
+
+    @ManyToOne
+    @JoinColumn(name = "locationId")
+    private Location location;
 
     @Enumerated(EnumType.STRING)
     private TourDirection tourDirection;
@@ -33,6 +38,8 @@ public class TourPackage {
     @Enumerated(EnumType.STRING)
     private SuitableFor suitableFor;
 
+    private String cancellationText;
+
     @Enumerated(EnumType.STRING)
     private TravelMode travelMode;
 
@@ -40,7 +47,11 @@ public class TourPackage {
     private Short noOfNights;
     private Short noOfDays;
     private Short salesChannel;
-    private Double basePrice;
+    private Double netPrice;
+    private Double currentMarkUp;
+    private Boolean isGeneralDiscountApplicable;
+    private Boolean isHajjUmrahPackage;
+    private Double generalDiscountPercentage;
     private String packageOverview;
     private String packageBookingSteps;
     private String facilityAtOnce;
@@ -48,7 +59,11 @@ public class TourPackage {
     private String inclusion;
     private String exclusion;
     private String brochurePath;
-    private Short refundPolicyId;
+
+    @ManyToOne
+    @JoinColumn(name = "refundPolicyId")
+    private RefundPolicy refundPolicy;
+
     private String otherPolicy;
     private Short adultMin;
     private Short adultMax;
@@ -56,6 +71,17 @@ public class TourPackage {
     private Short childMax;
     private Short infantMin;
     private Short infantMax;
+    private String noOfPeopleForDisplay;
+    private String disclaimer;
     private String travelTips;
-    private Double netPrice;
+    private LocalDate packageStartDate;
+    private LocalDate packageEndDate;
+
+    @ManyToOne
+    @JoinColumn(name = "tourCountryId")
+    private TourCountry country;
+
+    @ManyToOne
+    @JoinColumn(name = "tourCityId")
+    private TourCity city;
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PackageCategory {
+public class PackageCategory extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +20,5 @@ public class PackageCategory {
 
     private String categoryName;
     private String iconPath;
+    private Boolean isApplicableForHajjUmrah;
 }
