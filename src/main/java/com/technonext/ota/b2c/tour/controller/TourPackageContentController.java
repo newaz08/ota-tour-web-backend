@@ -27,7 +27,7 @@ public class TourPackageContentController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "API Endpoints for tourPackageContent searching")
+    @Operation(summary = "API Endpoints for Tour Package Content searching")
     public ResponseEntity<List<TourPackageContentProjection>> search(@RequestParam(name="id") Integer tourPackageId){
         return new ResponseEntity<>(tourPackageContentService.getAllTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
     }
