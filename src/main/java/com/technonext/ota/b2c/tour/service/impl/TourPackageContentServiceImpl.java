@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.service.impl;
 
+import com.technonext.ota.b2c.tour.dto.response.PackageDescriptionResponse;
 import com.technonext.ota.b2c.tour.dto.response.PackagePriceLimitResponse;
 import com.technonext.ota.b2c.tour.dto.response.TourPackageContentProjection;
 import com.technonext.ota.b2c.tour.repository.TourPackageContentRepository;
@@ -25,4 +26,5 @@ public class TourPackageContentServiceImpl implements TourPackageContentService 
     public PackagePriceLimitResponse getPackagePriceLimit(Integer locationId) {
         return tourPackageContentRepository.getPackagePriceLimitByLocation(locationId);
     }
+
 }

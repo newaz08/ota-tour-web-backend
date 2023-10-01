@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.service.iservice;
 
+import com.technonext.ota.b2c.tour.dto.response.PackageDescriptionResponse;
 import com.technonext.ota.b2c.tour.dto.response.PackagePriceLimitResponse;
 import com.technonext.ota.b2c.tour.dto.response.TourPackageContentProjection;
 import com.technonext.ota.b2c.tour.dto.response.TourPackageContentResponse;
