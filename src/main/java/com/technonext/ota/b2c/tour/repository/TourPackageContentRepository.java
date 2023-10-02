@@ -1,8 +1,7 @@
 package com.technonext.ota.b2c.tour.repository;
 
 import com.technonext.ota.b2c.tour.dto.response.PackagePriceLimitResponse;
-import com.technonext.ota.b2c.tour.dto.response.TourPackageContentProjection;
-import com.technonext.ota.b2c.tour.model.entity.TourPackage;
+import com.technonext.ota.b2c.tour.dto.response.TourPackageContentResponse;
 
 import com.technonext.ota.b2c.tour.model.entity.TourPackageContent;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,11 +12,11 @@ import java.util.List;
 
 public interface TourPackageContentRepository extends JpaRepository<TourPackageContent, Integer> {
     @Query(
-            value = "SELECT tpc.ContentType, tpc.MimeType, tpc.Path " +
+            value = "SELECT tpc.ContentType, tpc.MimeType,concat(:baseUrl,tpc.Path) as Path " +
                     "FROM tour.TourPackageContent as tpc where tpc.TourPackageId=:tourPackageId",
             nativeQuery = true
     )
-    List<TourPackageContentProjection> findTourPackageContent(Integer tourPackageId);
+    List<TourPackageContentResponse> findTourPackageContent(Integer tourPackageId, String baseUrl);
 
 
     @Query(value = "select max(ft.basePrice) as maxPrice,min(ft.basePrice) as minPrice from" +
