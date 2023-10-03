@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class LocationResponse {
 
-    private Long id;
+    private Integer id;
 
     private String locationName;
 
