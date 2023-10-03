@@ -1,6 +1,5 @@
 package com.technonext.ota.b2c.tour.controller;
 
-import com.technonext.ota.b2c.tour.dto.response.PackageDescriptionResponse;
 import com.technonext.ota.b2c.tour.dto.response.PackagePriceLimitResponse;
 import com.technonext.ota.b2c.tour.dto.response.TourPackageContentResponse;
 import com.technonext.ota.b2c.tour.service.iservice.TourPackageContentService;
@@ -30,7 +29,7 @@ public class TourPackageContentController {
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for Tour Package Content searching")
     public ResponseEntity<List<TourPackageContentResponse>> TourPackageContentSearch(@RequestParam(name="id") Integer tourPackageId){
-        return new ResponseEntity<>(tourPackageContentService.getAllTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
+        return new ResponseEntity<>(tourPackageContentService.getTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
     }
 
     @GetMapping("/price-limit")

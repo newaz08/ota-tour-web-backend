@@ -4,7 +4,6 @@ import com.technonext.ota.b2c.tour.dto.response.LocationResponse;
 import com.technonext.ota.b2c.tour.service.iservice.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
