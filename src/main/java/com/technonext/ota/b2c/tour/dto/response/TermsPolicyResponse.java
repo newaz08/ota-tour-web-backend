@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 @Setter
 public class TermsPolicyResponse {
-    private List<ChildPolicyResponse> childpolicy;
-    private List<RefundPolicyResponse> refundPolicy;
+
+    private String policyName;
+    private List<String> policies;
 }

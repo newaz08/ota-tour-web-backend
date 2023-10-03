@@ -21,7 +21,7 @@ public class TourPackageContentServiceImpl implements TourPackageContentService 
     }
 
     @Override
-    public List<TourPackageContentResponse> getAllTourPackageContentByPackageId(Integer tourPackageId) {
+    public List<TourPackageContentResponse> getTourPackageContentByPackageId(Integer tourPackageId) {
         return tourPackageContentRepository.findTourPackageContent(tourPackageId,baseUrl);
     }
 
@@ -29,4 +29,5 @@ public class TourPackageContentServiceImpl implements TourPackageContentService 
     public PackagePriceLimitResponse getPackagePriceLimit(Integer locationId) {
         return tourPackageContentRepository.getPackagePriceLimitByLocation(locationId);
     }
+
 }

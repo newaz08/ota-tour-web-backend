@@ -77,6 +77,7 @@ public class TourPackage extends AuditingEntity {
     private LocalDate packageStartDate;
     private LocalDate packageEndDate;
 
+
     @ManyToOne
     @JoinColumn(name = "tourCountryId")
     private TourCountry country;

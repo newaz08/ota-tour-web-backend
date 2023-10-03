@@ -2,6 +2,7 @@ package com.technonext.ota.b2c.tour.controller;
 
 import com.technonext.ota.b2c.tour.dto.response.PackageTagResponse;
 import com.technonext.ota.b2c.tour.service.iservice.PackageTagService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,9 @@ import static com.technonext.ota.b2c.tour.constant.APIEndpointConstants.PACKAGE_
 
 @RestController
 @RequestMapping(PACKAGE_TAG_ENDPOINT)
+@RequiredArgsConstructor
 public class PackageTagController {
-
-    @Autowired
-    private PackageTagService packageTagService;
+    private final PackageTagService packageTagService;
 
     @GetMapping()
     public List<PackageTagResponse> tagResponsesByLocation(@RequestParam(name = "locationId") Integer locationId){
