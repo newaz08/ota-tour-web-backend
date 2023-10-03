@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum TravelMode {
+public enum PackageMode {
 
-    WITH_FLIGHT("With Flight"), WITHOUT_FLIGHT("Without Flight");
+    NIGHT_STAY("Night Stay"), ACTIVITY_BASED("Activity Based");
 
     private final String value;
 }

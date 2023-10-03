@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum TravelMode {
+public enum Position {
 
-    WITH_FLIGHT("With Flight"), WITHOUT_FLIGHT("Without Flight");
+    GALLERY(1),
+    COVER(2);
 
-    private final String value;
+    private final int value;
 }
