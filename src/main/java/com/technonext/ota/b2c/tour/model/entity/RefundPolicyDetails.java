@@ -1,10 +1,9 @@
 package com.technonext.ota.b2c.tour.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Objects;
 
 @Entity
 @Table
@@ -12,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class RefundPolicyDetails {
 
     @Id
@@ -30,4 +30,21 @@ public class RefundPolicyDetails {
     private Integer priorDays;
     private Integer refundAdjustmentDays;
     private Boolean isActive;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RefundPolicyDetails that)) {
+            return false;
+        }
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getRefundPolicy(), that.getRefundPolicy());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getRefundPolicy());
+    }
 }

@@ -1,17 +1,17 @@
 package com.technonext.ota.b2c.tour.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Where(clause = "isDeleted=false")
 public class PackageTag extends AuditingEntity {
 
     @Id
