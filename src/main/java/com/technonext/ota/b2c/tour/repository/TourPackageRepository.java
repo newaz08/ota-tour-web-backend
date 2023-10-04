@@ -19,8 +19,9 @@ public interface TourPackageRepository extends JpaRepository<TourPackage, Intege
             "    tp.NoOfPeopleForDisplay AS noOfPeopleForDisplay,\n" +
             "    format(tp.PackageStartDate,'yyyy-MM') As packageStart,\n" +
             "    format(tp.PackageEndDate, 'yyyy-MM') As packageEnd,\n"+
-            "    IIF(tp.PackageMode = 'ACTIVITY', tp.ActivityDuration, tp.NoOfDays) AS duration,\n" +
-            "    CONCAT(tp.NoOfNights, ' Nights ', tp.NoOfDays, ' Days') AS durationText,\n" +
+            "    IIF(tp.PackageMode = 'ACTIVITY_BASED', tp.ActivityDuration, tp.NoOfDays) AS duration,\n" +
+            "    IIF(tp.PackageMode = 'ACTIVITY_BASED',concat(tp.ActivityDuration,' hour(s)')," +
+            "           CONCAT(tp.NoOfNights, ' Nights ', tp.NoOfDays, ' Days')) AS durationText,\n" +
             "    concat(:baseUrl,'/',tpackc.Path) AS featuredPhoto,\n" +
             "    tp.IsGeneralDiscountApplicable           AS discounted,\n" +
             "    tp.GeneralDiscountPercentage                                AS discountPercent,\n" +
@@ -39,7 +40,7 @@ public interface TourPackageRepository extends JpaRepository<TourPackage, Intege
             "        FOR JSON AUTO \n" +
             "    ) AS tagList,\n" +
             "    IIF(tp.TravelMode = 'WITH_FLIGHT', 1, 0) AS withFlight,\n" +
-            "    IIF(tp.PackageMode = 'ACTIVITY', 1, 0) AS activity,\n" +
+            "    IIF(tp.PackageMode = 'ACTIVITY_BASED', 1, 0) AS activity,\n" +
             "    (\n" +
             "        SELECT tpwcm.id\n" +
             "        FROM tour.TourPackageWiseCategoryMapping tpwcm\n" +
