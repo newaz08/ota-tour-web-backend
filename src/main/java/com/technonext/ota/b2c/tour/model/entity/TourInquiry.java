@@ -28,10 +28,10 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class TourInquiry extends AuditingEntity {
+public class TourInquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Enumerated(EnumType.STRING)
     private InquiryChannel inquiryChannel;
     @Enumerated(EnumType.STRING)
@@ -49,7 +49,7 @@ public class TourInquiry extends AuditingEntity {
     @JoinColumn(name = "locationId")
     private Location location;
     private String inquiryLocation;
-    private Date preferredJourneyData;
+    private Date preferredJourneyDate;
     private String customerLocation;
     private String requirement;
     @Enumerated(EnumType.STRING)

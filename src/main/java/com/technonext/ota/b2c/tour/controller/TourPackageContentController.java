@@ -5,6 +5,7 @@ import com.technonext.ota.b2c.tour.dto.response.TourPackageContentResponse;
 import com.technonext.ota.b2c.tour.service.iservice.TourPackageContentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,22 +19,22 @@ import static com.technonext.ota.b2c.tour.constant.APIEndpointConstants.TOUR_PAC
 
 @RestController
 @RequestMapping(TOUR_PACKAGE_CONTENT_ENDPOINT)
+@RequiredArgsConstructor
 @Tag(name = "Tour Package Content Controller", description = "API Endpoints for Tour Package Content related operations.")
 public class TourPackageContentController {
     private final TourPackageContentService tourPackageContentService;
 
-    public TourPackageContentController(TourPackageContentService tourPackageContentService) {
-        this.tourPackageContentService = tourPackageContentService;
-    }
-
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for Tour Package Content searching")
-    public ResponseEntity<List<TourPackageContentResponse>> getTourPackageContentSearch(@RequestParam(name="id") Integer tourPackageId){
-        return new ResponseEntity<>(tourPackageContentService.getTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
+    public ResponseEntity<List<TourPackageContentResponse>> getTourPackageContentSearch(
+        @RequestParam(name = "id") Integer tourPackageId) {
+        return new ResponseEntity<>(tourPackageContentService.getTourPackageContentByPackageId(tourPackageId),
+            HttpStatus.OK);
     }
 
     @GetMapping("/price-limit")
-    public PackagePriceLimitResponse packagePriceLimitByLocation(@RequestParam(name = "locationId") Integer locationId){
+    public PackagePriceLimitResponse packagePriceLimitByLocation(
+        @RequestParam(name = "locationId") Integer locationId) {
         return tourPackageContentService.getPackagePriceLimit(locationId);
     }
 
