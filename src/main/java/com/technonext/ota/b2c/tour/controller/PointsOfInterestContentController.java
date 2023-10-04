@@ -26,7 +26,9 @@ public class PointsOfInterestContentController {
     }
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for Tour PointsOfInterest Content searching")
-    public ResponseEntity<List<PointsOfInterestContentProjection>> PointsOfInterestSearch(@RequestParam(name="pointsOfInterestId") Long pointsOfInterestId){
-        return new ResponseEntity<>(pointsOfInterestContentService.getPointsOfInterestContentById(pointsOfInterestId), HttpStatus.OK);
+    public ResponseEntity<List<PointsOfInterestContentProjection>> getPointsOfInterestContentById(
+            @RequestParam(name="pointsOfInterestId") Long pointsOfInterestId){
+        return new ResponseEntity<>(pointsOfInterestContentService.getPointsOfInterestContentById(
+                                    pointsOfInterestId), HttpStatus.OK);
     }
 }
