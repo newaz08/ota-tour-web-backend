@@ -28,12 +28,13 @@ public class TourPackageContentController {
 
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for Tour Package Content searching")
-    public ResponseEntity<List<TourPackageContentResponse>> TourPackageContentSearch(@RequestParam(name="id") Integer tourPackageId){
-        return new ResponseEntity<>(tourPackageContentService.getAllTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
+    public ResponseEntity<List<TourPackageContentResponse>> getTourPackageContentSearch(@RequestParam(name="id") Integer tourPackageId){
+        return new ResponseEntity<>(tourPackageContentService.getTourPackageContentByPackageId(tourPackageId), HttpStatus.OK);
     }
 
     @GetMapping("/price-limit")
     public PackagePriceLimitResponse packagePriceLimitByLocation(@RequestParam(name = "locationId") Integer locationId){
         return tourPackageContentService.getPackagePriceLimit(locationId);
     }
+
 }

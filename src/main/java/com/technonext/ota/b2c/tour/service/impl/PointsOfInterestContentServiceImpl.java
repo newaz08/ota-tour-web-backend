@@ -1,6 +1,7 @@
 package com.technonext.ota.b2c.tour.service.impl;
 
-import com.technonext.ota.b2c.tour.dto.response.PointsOfInterestContentResponse;
+import com.technonext.ota.b2c.tour.dto.response.PointsOfInterestContentProjection;
+import com.technonext.ota.b2c.tour.dto.response.PointsOfInterestProjection;
 import com.technonext.ota.b2c.tour.repository.PointsOfInterestContentRepository;
 import com.technonext.ota.b2c.tour.service.iservice.PointsOfInterestContentService;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +21,13 @@ public class PointsOfInterestContentServiceImpl implements PointsOfInterestConte
     }
 
     @Override
-    public List<PointsOfInterestContentResponse> getPointsOfInterestContentById(Long pointsOfInterestId) {
+    public List<PointsOfInterestContentProjection> getPointsOfInterestContentById(Long pointsOfInterestId) {
         return pointsOfInterestContentRepository.findPointsOfInterestContentById(pointsOfInterestId,baseUrl);
+    }
+
+    @Override
+    public List<PointsOfInterestProjection> getPackagePointOfInterest(Integer locationId) {
+        return pointsOfInterestContentRepository.getPackagePointOfInterest(locationId, baseUrl);
     }
 }
 

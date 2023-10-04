@@ -18,7 +18,7 @@ public class TourCity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tourCountryId")
     private TourCountry country;
 

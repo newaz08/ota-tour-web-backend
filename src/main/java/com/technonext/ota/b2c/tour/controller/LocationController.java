@@ -4,7 +4,6 @@ import com.technonext.ota.b2c.tour.dto.response.LocationResponse;
 import com.technonext.ota.b2c.tour.service.iservice.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,8 @@ public class LocationController {
     private final LocationService locationService;
     @GetMapping ("/search")
     @Operation(summary = "API Endpoints for location searching")
-    public ResponseEntity<List<LocationResponse>> search(@RequestParam(name="locationName") String locationName){
-        return new ResponseEntity<>(locationService.getLocations(locationName), HttpStatus.OK);
+    public ResponseEntity<List<LocationResponse>> LocationsNameSearch(
+            @RequestParam(name="locationName", required = false, defaultValue = "") String locationName) {
+        return new ResponseEntity<>(locationService.getLocationsName(locationName), HttpStatus.OK);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.model.entity;
 
+import com.technonext.ota.b2c.tour.model.enums.PackageMode;
 import com.technonext.ota.b2c.tour.model.enums.SuitableFor;
 import com.technonext.ota.b2c.tour.model.enums.TourDirection;
 import com.technonext.ota.b2c.tour.model.enums.TravelMode;
@@ -26,14 +27,15 @@ public class TourPackage extends AuditingEntity {
     private String packageName;
     private String packageCode;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "locationId")
     private Location location;
 
     @Enumerated(EnumType.STRING)
     private TourDirection tourDirection;
 
-    private String packageMode;
+    @Enumerated(EnumType.STRING)
+    private PackageMode packageMode;
 
     @Enumerated(EnumType.STRING)
     private SuitableFor suitableFor;
@@ -53,14 +55,11 @@ public class TourPackage extends AuditingEntity {
     private Boolean isHajjUmrahPackage;
     private Double generalDiscountPercentage;
     private String packageOverview;
-    private String packageBookingSteps;
-    private String facilityAtOnce;
-    private String additionalInformation;
     private String inclusion;
     private String exclusion;
     private String brochurePath;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "refundPolicyId")
     private RefundPolicy refundPolicy;
 
@@ -77,11 +76,11 @@ public class TourPackage extends AuditingEntity {
     private LocalDate packageStartDate;
     private LocalDate packageEndDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tourCountryId")
     private TourCountry country;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tourCityId")
     private TourCity city;
 }

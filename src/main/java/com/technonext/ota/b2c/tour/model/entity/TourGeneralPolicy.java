@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.model.entity;
 
+import com.technonext.ota.b2c.tour.util.SecurityUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class TourGeneralPolicy {
     private Integer id;
 
     private Double defaultMarkUp;
+
     @ManyToOne
     @JoinColumn(name = "createdBy")
     private User createdBy;
@@ -32,4 +34,16 @@ public class TourGeneralPolicy {
     private User modifiedBy;
 
     private LocalDateTime modifiedDate;
+
+    @PrePersist
+    private void onPersist() {
+        createdDate = LocalDateTime.now();
+        SecurityUtil.getCurrentUser().ifPresent(currentLoggedUser -> createdBy = currentLoggedUser);
+    }
+
+    @PreUpdate
+    private void onModification() {
+        modifiedDate = LocalDateTime.now();
+        SecurityUtil.getCurrentUser().ifPresent(currentLoggedUser -> modifiedBy = currentLoggedUser);
+    }
 }

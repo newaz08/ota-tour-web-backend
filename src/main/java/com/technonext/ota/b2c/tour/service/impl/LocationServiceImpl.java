@@ -1,29 +1,34 @@
 package com.technonext.ota.b2c.tour.service.impl;
 
 import com.technonext.ota.b2c.tour.dto.response.LocationResponse;
-import com.technonext.ota.b2c.tour.mapper.LocationMapper;
 import com.technonext.ota.b2c.tour.model.entity.Location;
 import com.technonext.ota.b2c.tour.repository.LocationRepository;
 import com.technonext.ota.b2c.tour.service.iservice.LocationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import static com.technonext.ota.b2c.tour.constant.ApplicationConstant.DEFAULT_PAGE_SIZE;
+
 @Service
+@RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService{
 
     private final LocationRepository locationRepository;
 
-    private final LocationMapper locationMapper;
-
-    public LocationServiceImpl(LocationRepository locationRepository, LocationMapper locationMapper) {
-        this.locationRepository = locationRepository;
-        this.locationMapper = locationMapper;
-    }
-
     @Override
-    public List<LocationResponse> getLocations(String locationName) {
-       List<Location> locations = locationRepository.findByLocation(locationName);
-       return locationMapper.toLocationResponseList(locations);
+    public List<LocationResponse> getLocationsName(String locationName) {
+        Pageable pageable = PageRequest.ofSize(DEFAULT_PAGE_SIZE);
+        Page<Location> locations = locationRepository.findByLocationName(locationName,pageable);
+        return locations.getContent().stream()
+                .map(location -> new LocationResponse(
+                        location.getId(),
+                        location.getLocationName()
+                        )
+                ).toList();
     }
+
 }
