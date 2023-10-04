@@ -6,4 +6,5 @@ public interface PointsOfInterestContentProjection {
     String getMimeType();
     String getPath();
     Byte getPosition();
+
 }

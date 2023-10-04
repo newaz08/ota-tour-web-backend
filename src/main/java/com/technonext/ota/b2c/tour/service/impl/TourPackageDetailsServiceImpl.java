@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -69,7 +70,8 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
     CompletableFuture<List<TourPackageContentResponse>> getTourPackageContent(Integer tourPackageId) {
 
         return CompletableFuture.completedFuture(
-                tourPackageContentService.getTourPackageContentByPackageId(tourPackageId));
+                tourPackageContentService.getTourPackageContentByPackageId(tourPackageId))
+                            .exceptionally(ex-> Collections.emptyList())   ;
     }
 
     @Async
@@ -82,7 +84,8 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
     CompletableFuture<List<PointsOfInterestProjection>> getTourPackagePointOfInterest(Integer locationId) {
 
         return CompletableFuture.completedFuture(
-                pointsOfInterestContentService.getPackagePointOfInterest(locationId));
+                pointsOfInterestContentService.getPackagePointOfInterest(locationId))
+                .exceptionally(ex -> Collections.emptyList());
     }
 
     @Async
@@ -104,7 +107,7 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
         termsPolicyResponse.setPolicies(Arrays.asList(termsPolicyService.getOtherPolicy(tourPackageId)));
         termsPolicyResponses.add(termsPolicyResponse);
 
-        return CompletableFuture.completedFuture(termsPolicyResponses);
+        return CompletableFuture.completedFuture(termsPolicyResponses).exceptionally(ex -> Collections.emptyList());
     }
 
 }

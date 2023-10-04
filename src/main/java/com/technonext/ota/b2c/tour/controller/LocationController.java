@@ -21,7 +21,8 @@ public class LocationController {
     private final LocationService locationService;
     @GetMapping ("/search")
     @Operation(summary = "API Endpoints for location searching")
-    public ResponseEntity<List<LocationResponse>> LocationsNameSearch(@RequestParam(name="locationName",defaultValue = "") String locationName) {
+    public ResponseEntity<List<LocationResponse>> LocationsNameSearch(
+            @RequestParam(name="locationName", required = false, defaultValue = "") String locationName) {
         return new ResponseEntity<>(locationService.getLocationsName(locationName), HttpStatus.OK);
     }
 }
