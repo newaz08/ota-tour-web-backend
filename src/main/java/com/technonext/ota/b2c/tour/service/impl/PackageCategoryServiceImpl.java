@@ -19,7 +19,7 @@ public class PackageCategoryServiceImpl implements PackageCategoryService {
     }
 
     @Override
-    public List<PackageCategoryResponse> getAllActiveHajjUmrahPackage() {
+    public List<PackageCategoryResponse> getAllByActiveHajjUmrahPackage() {
         return packageCategoryRepository.findAllActiveHajjUmrahPackage();
     }
 }

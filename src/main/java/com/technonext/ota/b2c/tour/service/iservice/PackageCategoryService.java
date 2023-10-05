@@ -6,6 +6,6 @@ import java.util.List;
 public interface PackageCategoryService {
         List<PackageCategoryResponse> getAllByInactiveHajjUmrahPackage();
 
-        List<PackageCategoryResponse> getAllActiveHajjUmrahPackage();
+        List<PackageCategoryResponse> getAllByActiveHajjUmrahPackage();
     }
 

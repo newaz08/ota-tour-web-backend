@@ -34,6 +34,6 @@ public class PackageCategoryController {
     @GetMapping(" ")
     @Operation(summary = "API Endpoints for Active HajjUmrah Package Category")
     public ResponseEntity<List<PackageCategoryResponse>> getAllActiveHajjUmrahPackage(){
-        return new ResponseEntity<>(packageCategoryService.getAllActiveHajjUmrahPackage(), HttpStatus.OK);
+        return new ResponseEntity<>(packageCategoryService.getAllByActiveHajjUmrahPackage(), HttpStatus.OK);
     }
 }
