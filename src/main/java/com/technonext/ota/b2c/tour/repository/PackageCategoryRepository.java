@@ -17,6 +17,6 @@ public interface PackageCategoryRepository extends JpaRepository<PackageCategory
     @Query(value = "SELECT pc.Id, pc.CategoryName, pc.IconPath FROM tour.PackageCategory as pc \n" +
             "where pc.IsApplicableForHajjUmrah='true' and pc.IsActive='true' and pc.IsDeleted='false'",
             nativeQuery = true)
-    List<PackageCategoryResponse> findAllActiveHajjUmrahPackage();
+    List<PackageCategoryResponse> findAllHajjUmrahPackageCategory();
 
 }

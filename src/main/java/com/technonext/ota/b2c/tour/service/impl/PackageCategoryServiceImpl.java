@@ -14,12 +14,12 @@ public class PackageCategoryServiceImpl implements PackageCategoryService {
    private final PackageCategoryRepository packageCategoryRepository;
 
     @Override
-    public List<PackageCategoryResponse> getAllByInactiveHajjUmrahPackage() {
+    public List<PackageCategoryResponse> getAllTourPackageCategory() {
          return packageCategoryRepository.findAllTourPackageCategory();
     }
 
     @Override
-    public List<PackageCategoryResponse> getAllByActiveHajjUmrahPackage() {
-        return packageCategoryRepository.findAllActiveHajjUmrahPackage();
+    public List<PackageCategoryResponse> getAllHajjUmrahPackageCategory() {
+        return packageCategoryRepository.findAllHajjUmrahPackageCategory();
     }
 }
