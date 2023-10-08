@@ -26,8 +26,14 @@ public class PackageCategoryController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "API Endpoints for Package Category searching")
-    public ResponseEntity<List<PackageCategoryResponse>> search(){
-        return new ResponseEntity<>(packageCategoryService.getAllByInactiveHajjUmrah(), HttpStatus.OK);
+    @Operation(summary = "API Endpoints for Tour Package Category")
+    public ResponseEntity<List<PackageCategoryResponse>> getAllTourPackageCategory(){
+        return new ResponseEntity<>(packageCategoryService.getAllTourPackageCategory(), HttpStatus.OK);
+    }
+
+    @GetMapping(" ")
+    @Operation(summary = "API Endpoints for HajjUmrah Package Category")
+    public ResponseEntity<List<PackageCategoryResponse>> getAllHajjUmrahPackageCategory(){
+        return new ResponseEntity<>(packageCategoryService.getAllHajjUmrahPackageCategory(), HttpStatus.OK);
     }
 }
