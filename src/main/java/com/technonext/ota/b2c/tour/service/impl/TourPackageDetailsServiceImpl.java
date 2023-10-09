@@ -3,6 +3,7 @@ package com.technonext.ota.b2c.tour.service.impl;
 import com.technonext.ota.b2c.tour.constant.ApplicationConstant;
 import com.technonext.ota.b2c.tour.dto.response.*;
 import com.technonext.ota.b2c.tour.model.entity.TourPackage;
+import com.technonext.ota.b2c.tour.repository.PackageTagRepository;
 import com.technonext.ota.b2c.tour.repository.TourPackageRepository;
 import com.technonext.ota.b2c.tour.service.iservice.PointsOfInterestContentService;
 import com.technonext.ota.b2c.tour.service.iservice.TermsPolicyService;
@@ -26,6 +27,7 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
     private final TourPackageContentService tourPackageContentService;
     private final PointsOfInterestContentService pointsOfInterestContentService;
     private final TermsPolicyService termsPolicyService;
+    private final PackageTagRepository packageTagRepository;
     @Override
     public CompletableFuture<TourPackageDetailsResponse> getTourPackageDetailsInfo(Integer tourPackageId) {
 
@@ -37,17 +39,26 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
                 getTourPackageDetails(tourPackageId);
 
 
-            CompletableFuture<List<PointsOfInterestProjection>>
+        CompletableFuture<List<PointsOfInterestProjection>>
                     pointOfInterestFuture = getTourPackagePointOfInterest(tourPackage.getLocation().getId());
 
-
+        CompletableFuture<List<TourPackageTagProjection>> tourPackageTagListFuture = getTourPackageTagList(tourPackageId);
         CompletableFuture<List<TermsPolicyResponse>>  policiesFuture = getTermPolicy(tourPackageId);
 
-        return CompletableFuture.allOf(tourPackageContentFuture, packageDetailsFuture, policiesFuture)
+        return CompletableFuture.allOf(tourPackageContentFuture, packageDetailsFuture, tourPackageTagListFuture,
+                                                                policiesFuture)
                 .thenApplyAsync(tourDetails -> {
                     PackageDetailsProjection packageDetailsProjection = packageDetailsFuture.join();
                     PackageDescriptionResponse descriptionResponse =
                             PackageDescriptionResponse.builder()
+                                    .packageName(packageDetailsProjection.getPackageName())
+                                    .noOfDays(packageDetailsProjection.getNoOfDays())
+                                    .noOfNights(packageDetailsProjection.getNoOfNights())
+                                    .noOfPeopleForDisplay(packageDetailsProjection.getNoOfPeopleForDisplay())
+                                    .basePrice(packageDetailsProjection.getBasePrice())
+                                    .cancellationText(packageDetailsProjection.getCancellationText())
+                                    .suitableFor(packageDetailsProjection.getSuitableFor())
+                                    .generalDiscountPercentage(packageDetailsProjection.getGeneralDiscountPercentage())
                                     .packageEndDate(packageDetailsProjection.getPackageEndDate())
                                     .packageOverview(packageDetailsProjection.getPackageOverview())
                                     .desClaimer(packageDetailsProjection.getDisclaimer())
@@ -59,6 +70,7 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
                                                .build();
 
                     return TourPackageDetailsResponse.builder()
+                                                     .packageTags(tourPackageTagListFuture.join())
                                                      .packageContent(tourPackageContentFuture.join())
                                                      .packageDetails(descriptionResponse)
                                                      .termsPolicies(policiesFuture.join())
@@ -85,6 +97,14 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
 
         return CompletableFuture.completedFuture(
                 pointsOfInterestContentService.getPackagePointOfInterest(locationId))
+                .exceptionally(ex -> Collections.emptyList());
+    }
+
+    @Async
+    CompletableFuture<List<TourPackageTagProjection>> getTourPackageTagList(Integer tourPackageId) {
+
+        return CompletableFuture.completedFuture(
+                packageTagRepository.getPackageTagListPackageId(tourPackageId))
                 .exceptionally(ex -> Collections.emptyList());
     }
 
