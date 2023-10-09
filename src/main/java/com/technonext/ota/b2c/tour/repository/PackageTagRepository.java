@@ -26,7 +26,7 @@ public interface PackageTagRepository extends JpaRepository<PackageTag,Short> {
             "inner join tour.PackageTag as pt on pt.Id=tpwtm.PackageTagId\n" +
             "and tp.id=:tourPackageId and pt.IsDeleted=0 and pt.IsActive=1;",nativeQuery = true)
 
-    List<TourPackageTagProjection> getPackageTagListPackageId(@Param("tourPackageId")Integer tourPackageId);
+    List<TourPackageTagProjection> getPackageTagListByPackageId(@Param("tourPackageId")Integer tourPackageId);
 
 
 

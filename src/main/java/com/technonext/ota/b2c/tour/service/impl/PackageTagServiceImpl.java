@@ -46,7 +46,7 @@ public class PackageTagServiceImpl implements PackageTagService {
 
     @Override
     public List<TourPackageTagProjection> getPackageTagsByTourPackageId(Integer tourPackageId) {
-        return packageTagRepository.getPackageTagListPackageId(tourPackageId);
+        return packageTagRepository.getPackageTagListByPackageId(tourPackageId);
     }
 
 }

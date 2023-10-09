@@ -34,7 +34,7 @@ public class PackageTagController {
     public NextTripTagWithPackageInfoResponse getNextTripTagWithPackageInfoGroupByCountry(){
         return packageTagService.getNextTripTagWithPackageInfoGroupByCountry();
     }
-    @GetMapping("/Id")
+    @GetMapping("/package-wise-tag-list")
     @Operation(summary = "API Endpoints for Package Tag List")
     public List<TourPackageTagProjection> getPackageTagList(@RequestParam(name = "tourPackageId")Integer tourPackageId){
         return packageTagService.getPackageTagsByTourPackageId(tourPackageId);

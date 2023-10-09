@@ -104,7 +104,7 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
     CompletableFuture<List<TourPackageTagProjection>> getTourPackageTagList(Integer tourPackageId) {
 
         return CompletableFuture.completedFuture(
-                packageTagRepository.getPackageTagListPackageId(tourPackageId))
+                packageTagRepository.getPackageTagListByPackageId(tourPackageId))
                 .exceptionally(ex -> Collections.emptyList());
     }
 
