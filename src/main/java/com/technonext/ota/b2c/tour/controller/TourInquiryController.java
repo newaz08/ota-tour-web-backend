@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.controller;
 
+import com.technonext.ota.b2c.tour.constant.CustomAPIResponse;
 import com.technonext.ota.b2c.tour.dto.request.CustomTourInquiryRequest;
 import com.technonext.ota.b2c.tour.service.iservice.TourInquiryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,9 +23,10 @@ public class TourInquiryController {
     private final TourInquiryService tourInquiryService;
 
     @PostMapping("/new/request")
-    public ResponseEntity<String> createCustomTourRequest(
+    public ResponseEntity<CustomAPIResponse<String>> createCustomTourRequest(
         @RequestBody CustomTourInquiryRequest tourInquiryRequest) {
         tourInquiryService.createCustomTourRequest(tourInquiryRequest);
-        return new ResponseEntity<>("New Tour Request created Successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(new CustomAPIResponse<>("New Tour Request created Successfully"),
+            HttpStatus.CREATED);
     }
 }
