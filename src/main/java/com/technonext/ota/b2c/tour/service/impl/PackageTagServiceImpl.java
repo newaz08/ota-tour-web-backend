@@ -3,6 +3,7 @@ package com.technonext.ota.b2c.tour.service.impl;
 import com.technonext.ota.b2c.tour.dto.response.NextTripTagWithPackageInfoProjection;
 import com.technonext.ota.b2c.tour.dto.response.NextTripTagWithPackageInfoResponse;
 import com.technonext.ota.b2c.tour.dto.response.PackageTagResponse;
+import com.technonext.ota.b2c.tour.dto.response.TourPackageTagProjection;
 import com.technonext.ota.b2c.tour.repository.PackageTagRepository;
 import com.technonext.ota.b2c.tour.service.iservice.PackageTagService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,11 @@ public class PackageTagServiceImpl implements PackageTagService {
     @Override
     public List<PackageTagResponse> getTopFiveNextTripTag() {
         return packageTagRepository.getTopFiveNextTripTag();
+    }
+
+    @Override
+    public List<TourPackageTagProjection> getPackageTagsByTourPackageId(Integer tourPackageId) {
+        return packageTagRepository.getPackageTagListByPackageId(tourPackageId);
     }
 
 }

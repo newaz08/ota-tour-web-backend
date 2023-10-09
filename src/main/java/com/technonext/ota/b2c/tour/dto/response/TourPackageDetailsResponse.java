@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 public class TourPackageDetailsResponse {
 
+    private List<TourPackageTagProjection> packageTags;
     private List<TourPackageContentResponse> packageContent;
     private PackageDescriptionResponse packageDetails;
     private List<TermsPolicyResponse> termsPolicies;

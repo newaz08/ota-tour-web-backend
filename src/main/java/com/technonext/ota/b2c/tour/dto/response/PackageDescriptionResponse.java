@@ -14,7 +14,15 @@ import java.util.List;
 @Builder
 public class PackageDescriptionResponse {
 
-    private LocalDateTime packageEndDate;
+    private String packageName;
+    private String noOfNights;
+    private String noOfDays;
+    private String noOfPeopleForDisplay;
+    private Double basePrice;
+    private String suitableFor;
+    private Double generalDiscountPercentage;
+    private String cancellationText;
+    private String packageEndDate;
     private String desClaimer;
     private String packageOverview;
     private String inclusion;
