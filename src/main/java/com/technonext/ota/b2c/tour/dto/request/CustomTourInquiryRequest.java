@@ -19,10 +19,7 @@ public record CustomTourInquiryRequest(
     String requirements,
     @NotNull
     @NotEmpty
-    String firstName,
-    @NotNull
-    @NotEmpty
-    String lastName,
+    String name,
     @NotNull
     @Email
     String email,

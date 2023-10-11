@@ -10,6 +10,8 @@ public class ApplicationConstant {
     public static final String OTHER_POLICY_NAME = "Other Policy";
     public static final int  DEFAULT_PAGE_SIZE = 100;
     public static final String PACKAGE_DEFAULT_CURRENCY="BDT";
+    public static final String CUSTOM_INQUIRY_INITIAL = "TCI";
+    public static final String TOUR_INQUIRY_INITIAL = "TPI";
 
 
 }

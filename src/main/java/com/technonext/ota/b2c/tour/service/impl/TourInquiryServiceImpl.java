@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.technonext.ota.b2c.tour.constant.ApplicationConstant.CUSTOM_INQUIRY_INITIAL;
+
 @Service
 @RequiredArgsConstructor
 public class TourInquiryServiceImpl implements TourInquiryService {
@@ -24,12 +26,12 @@ public class TourInquiryServiceImpl implements TourInquiryService {
     @Override
     public void createCustomTourRequest(CustomTourInquiryRequest tourInquiryRequest) {
         Long countOnDateOfInquiry = tourInquiryRepository.countByDateOfInquiryAfter(LocalDate.now().atStartOfDay());
-        String inquiryNumber = commonUtil.generateUniqueNumber("TCI", countOnDateOfInquiry + 1, 5);
+        String inquiryNumber = commonUtil.generateUniqueNumber(CUSTOM_INQUIRY_INITIAL, countOnDateOfInquiry + 1, 5);
         TourInquiry tourInquiry = TourInquiry.builder()
             .inquiryChannel(InquiryChannel.MOBILE)
             .inquiryType(InquiryType.GENERAL)
             .inquiryFor(InquiryFor.TOUR_PACKAGES)
-            .name(tourInquiryRequest.firstName() + " " + tourInquiryRequest.lastName())
+            .name(tourInquiryRequest.name())
             .dateOfInquiry(LocalDateTime.now())
             .preferredJourneyDate(tourInquiryRequest.date())
             .email(tourInquiryRequest.email())
