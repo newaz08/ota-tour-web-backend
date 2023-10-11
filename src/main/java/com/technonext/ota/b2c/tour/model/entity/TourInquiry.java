@@ -21,7 +21,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -42,7 +42,7 @@ public class TourInquiry {
     private InquiryType inquiryType;
     @Enumerated(EnumType.STRING)
     private InquiryFor inquiryFor;
-    private Date dateOfInquiry;
+    private LocalDateTime dateOfInquiry;
     @ManyToOne
     @JoinColumn(name = "tourPackageId")
     private TourPackage tourPackage;
@@ -53,12 +53,12 @@ public class TourInquiry {
     @JoinColumn(name = "locationId")
     private Location location;
     private String inquiryLocation;
-    private Date preferredJourneyDate;
+    private LocalDateTime preferredJourneyDate;
     private String customerLocation;
     private String requirement;
     @Enumerated(EnumType.STRING)
     private InquiryStatus inquiryStatus;
-    private Date nextReminderDate;
+    private LocalDateTime nextReminderDate;
     private Integer noOfTravellers;
     private Integer noOfAdults;
     private Integer noOfChilds;

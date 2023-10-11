@@ -11,9 +11,7 @@ import com.technonext.ota.b2c.tour.service.iservice.TourInquiryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +20,13 @@ public class TourInquiryServiceImpl implements TourInquiryService {
 
     @Override
     public void createCustomTourRequest(CustomTourInquiryRequest tourInquiryRequest) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date journeyDate;
-        System.out.println(tourInquiryRequest.toString());
-        System.out.println(tourInquiryRequest.date());
-        try {
-            journeyDate = dateFormat.parse(tourInquiryRequest.date());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
         TourInquiry tourInquiry = TourInquiry.builder()
             .inquiryChannel(InquiryChannel.WEB)
             .inquiryType(InquiryType.GENERAL)
             .inquiryFor(InquiryFor.Tour_Packages)
             .name(tourInquiryRequest.firstName() + " " + tourInquiryRequest.lastName())
-            .dateOfInquiry(new Date())
-            .preferredJourneyDate(journeyDate)
+            .dateOfInquiry(LocalDateTime.now())
+            .preferredJourneyDate(tourInquiryRequest.date())
             .email(tourInquiryRequest.email())
             .mobileNumber(tourInquiryRequest.contact())
             .requirement(tourInquiryRequest.requirements())
@@ -45,6 +34,8 @@ public class TourInquiryServiceImpl implements TourInquiryService {
             .customerLocation(tourInquiryRequest.departure())
             .inquiryStatus(InquiryStatus.NEW_INQUIRY)
             .b2cUserId(1L)
+            .isDeleted(false)
+            .isActive(true)
             .build();
         tourInquiryRepository.save(tourInquiry);
     }
