@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryFor {
-    Tour_Packages("Tour Packages"), Umrah_Packages("Hajj-Umrah Packages");
+    TOUR_PACKAGES("Tour Packages"), UMRAH_PACKAGES("Hajj-Umrah Packages");
     private final String value;
 
     InquiryFor(String value) {

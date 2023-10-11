@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLInsert;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @Where(clause = "isDeleted = false")
+@SQLInsert(sql = "UPDATE tour.tourInquiry set IsActive = 1 and IsDeleted = 0 where Id=? ")
 @SQLDelete(sql = "UPDATE tour.tourInquiry SET IsDELETED = 1 WHERE Id=? ")
 public class TourInquiry {
     @Id
@@ -63,6 +65,7 @@ public class TourInquiry {
     private Integer noOfAdults;
     private Integer noOfChilds;
     private Integer noOfInfants;
+    private String inquiryId;
     private Boolean isActive = true;
     private Boolean isDeleted = false;
     private Long b2cUserId;

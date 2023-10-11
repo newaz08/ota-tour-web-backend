@@ -23,7 +23,7 @@ public class TourInquiryServiceImpl implements TourInquiryService {
         TourInquiry tourInquiry = TourInquiry.builder()
             .inquiryChannel(InquiryChannel.WEB)
             .inquiryType(InquiryType.GENERAL)
-            .inquiryFor(InquiryFor.Tour_Packages)
+            .inquiryFor(InquiryFor.TOUR_PACKAGES)
             .name(tourInquiryRequest.firstName() + " " + tourInquiryRequest.lastName())
             .dateOfInquiry(LocalDateTime.now())
             .preferredJourneyDate(tourInquiryRequest.date())
@@ -33,9 +33,8 @@ public class TourInquiryServiceImpl implements TourInquiryService {
             .inquiryLocation(tourInquiryRequest.destination())
             .customerLocation(tourInquiryRequest.departure())
             .inquiryStatus(InquiryStatus.NEW)
-            .b2cUserId(1L)
-            .isDeleted(false)
-            .isActive(true)
+            .inquiryId("TCI2309202399999")  // to do
+            .b2cUserId(1L)  // to do
             .build();
         tourInquiryRepository.save(tourInquiry);
     }

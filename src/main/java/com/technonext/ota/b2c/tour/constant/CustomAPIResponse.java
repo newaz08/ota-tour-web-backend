@@ -11,14 +11,12 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public class CustomAPIResponse<T> {
+public class CustomAPIResponse {
     private final HttpStatus status;
     private final String message;
-    private final T content;
 
-    public CustomAPIResponse(T content) {
+    public CustomAPIResponse(String message) {
         this.status = HttpStatus.OK;
-        this.message = "Successfully Done!";
-        this.content = content;
+        this.message = message;
     }
 }

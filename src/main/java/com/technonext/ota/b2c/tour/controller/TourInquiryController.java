@@ -23,10 +23,10 @@ public class TourInquiryController {
     private final TourInquiryService tourInquiryService;
 
     @PostMapping("/new/request")
-    public ResponseEntity<CustomAPIResponse<String>> createCustomTourRequest(
+    public ResponseEntity<CustomAPIResponse> createCustomTourRequest(
         @RequestBody CustomTourInquiryRequest tourInquiryRequest) {
         tourInquiryService.createCustomTourRequest(tourInquiryRequest);
-        return new ResponseEntity<>(new CustomAPIResponse<>("New Tour Request created Successfully"),
+        return new ResponseEntity<>(new CustomAPIResponse("New Tour Request created Successfully"),
             HttpStatus.CREATED);
     }
 }
