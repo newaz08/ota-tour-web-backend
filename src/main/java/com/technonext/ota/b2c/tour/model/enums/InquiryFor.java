@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryFor {
-    Tour_Packages("Tour Packages"), Umrah_Packages("Hajj-Umrah Packages");
-    private final String value;
+    TOUR_PACKAGES(0), UMRAH_PACKAGES(1);
+    private final Integer value;
 
-    InquiryFor(String value) {
+    InquiryFor(Integer value) {
         this.value = value;
     }
 }

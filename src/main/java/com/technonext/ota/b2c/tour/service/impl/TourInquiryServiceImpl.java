@@ -20,6 +20,12 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.technonext.ota.b2c.tour.util.CommonUtil;
+
+import java.time.LocalDate;
+
+import static com.technonext.ota.b2c.tour.constant.ApplicationConstant.CUSTOM_INQUIRY_INITIAL;
+import static com.technonext.ota.b2c.tour.constant.ApplicationConstant.TOUR_INQUIRY_INITIAL;
 
 @Service
 @RequiredArgsConstructor
@@ -29,29 +35,38 @@ public class TourInquiryServiceImpl implements TourInquiryService {
     private final LocationRepository locationRepository;
     private final TourPackageRepository tourPackageRepository;
     private final TourInquiryMapper mapper;
+    private final CommonUtil commonUtil;
 
     @Override
     public void createCustomTourRequest(CustomTourInquiryRequest tourInquiryRequest) {
+        Long countOnDateOfInquiry = tourInquiryRepository.countByDateOfInquiryAfter(LocalDate.now().atStartOfDay());
+        String inquiryNumber = commonUtil.generateUniqueNumber(CUSTOM_INQUIRY_INITIAL, countOnDateOfInquiry + 1, 5);
+        String tourInquiryNumber = commonUtil.generateUniqueNumber(TOUR_INQUIRY_INITIAL , countOnDateOfInquiry + 1,5);
         TourInquiry tourInquiry = TourInquiry.builder()
-            .inquiryChannel(InquiryChannel.WEB)
+            .inquiryChannel(InquiryChannel.MOBILE)
             .inquiryType(InquiryType.GENERAL)
-            .inquiryFor(InquiryFor.Tour_Packages)
-            .name(tourInquiryRequest.firstName() + " " + tourInquiryRequest.lastName())
-            .dateOfInquiry(new Date())
-            .preferredJourneyDate(new Date(tourInquiryRequest.date()))
+            .inquiryFor(InquiryFor.TOUR_PACKAGES)
+            .name(tourInquiryRequest.name())
+            .dateOfInquiry(LocalDateTime.now())
+            .preferredJourneyDate(tourInquiryRequest.date())
             .email(tourInquiryRequest.email())
             .mobileNumber(tourInquiryRequest.contact())
             .requirement(tourInquiryRequest.requirements())
             .inquiryLocation(tourInquiryRequest.destination())
             .customerLocation(tourInquiryRequest.departure())
-            .inquiryStatus(InquiryStatus.NEW_INQUIRY)
 //            .b2cUserId(1L)
+            .inquiryStatus(InquiryStatus.NEW)
+            .inquiryNumber(inquiryNumber)
+             //TODO : cannot be parsed from the btc service
+            .b2cUserId(1L)
             .build();
         tourInquiryRepository.save(tourInquiry);
     }
     @Override
     public void createTourPackageInquiry(TourPackageInquiryRequest request) {
-        //        Location location = locationRepository.findById(request.locationId())
+        Long countOnDateOfInquiry = tourInquiryRepository.countByDateOfInquiryAfter(LocalDate.now().atStartOfDay());
+        String tourInquiryNumber = commonUtil.generateUniqueNumber(TOUR_INQUIRY_INITIAL , countOnDateOfInquiry + 1,5);
+//        Location location = locationRepository.findById(request.locationId())
 //            .orElseThrow(() -> new ResourceNotFoundException(ExceptionConstant.LOCATION_NOT_FOUND));
 //
 //        TourPackage tourPackage = tourPackageRepository.findById(request.tourPackageId())
@@ -59,14 +74,15 @@ public class TourInquiryServiceImpl implements TourInquiryService {
 
         TourInquiry tourInquiry = mapper.toTourPackageInquiryEntity(request);
         tourInquiry.setNoOfTravellers(request.noOfAdults() + request.noOfChilds() + request.noOfInfants());
-        tourInquiry.setDateOfInquiry(new Date());
+        tourInquiry.setDateOfInquiry(LocalDateTime.now());
         tourInquiry.setInquiryChannel(InquiryChannel.WEB);
-        tourInquiry.setInquiryFor(InquiryFor.Tour_Packages);
+        tourInquiry.setInquiryFor(InquiryFor.TOUR_PACKAGES);
         tourInquiry.setInquiryType(InquiryType.TOUR_SPECIFIC);
-        tourInquiry.setInquiryStatus(InquiryStatus.NEW_INQUIRY);
-        tourInquiry.setInquiryLocation("Tanguar Haour");
-        tourInquiry.setPreferredJourneyDate(new Date());
-//        tourInquiry.setB2cUserId(1L);
+        tourInquiry.setInquiryStatus(InquiryStatus.NEW);
+        // TODO: will be implemented when get location information
+        tourInquiry.setInquiryLocation("Tanguar Haoar");
+        tourInquiry.setInquiryNumber(tourInquiryNumber);
+        tourInquiry.setB2cUserId(1L);
 //        tourInquiry.setLocationId(request.locationId());
 //        tourInquiry.setTourPackageId(request.tourPackageId());
         tourInquiryRepository.save(tourInquiry);

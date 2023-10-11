@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryChannel {
-    WEB("Web"), MOBILE("Mobile");
-    private final String value;
+    WEB(0), MOBILE(1);
+    private final Integer value;
 
-    InquiryChannel(String value) {
+    InquiryChannel(Integer value) {
         this.value = value;
     }
 }

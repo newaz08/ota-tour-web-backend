@@ -19,7 +19,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -32,13 +33,13 @@ public class TourInquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryChannel inquiryChannel;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryType inquiryType;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryFor inquiryFor;
-    private Date dateOfInquiry;
+    private LocalDateTime dateOfInquiry;
     @ManyToOne
     @JoinColumn(name = "tourPackageId")
     private TourPackage tourPackage;
@@ -49,15 +50,16 @@ public class TourInquiry {
     @JoinColumn(name = "locationId")
     private Location location;
     private String inquiryLocation;
-    private Date preferredJourneyDate;
+    private LocalDateTime preferredJourneyDate;
     private String customerLocation;
     private String requirement;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryStatus inquiryStatus;
-    private Date nextReminderDate;
+    private LocalDateTime nextReminderDate;
     private Integer noOfTravellers;
     private Integer noOfAdults;
     private Integer noOfChilds;
     private Integer noOfInfants;
+    private String inquiryNumber;
     private Long b2cUserId;
 }
