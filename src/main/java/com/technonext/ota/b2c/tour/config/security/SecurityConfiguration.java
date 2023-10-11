@@ -1,8 +1,6 @@
 package com.technonext.ota.b2c.tour.config.security;
 
 import com.technonext.ota.b2c.tour.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,14 +22,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.security.SecureRandom;
 import java.util.Collections;
 
-import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
+    @Bean
+    public SecureRandom secureRandom() {
+        return new SecureRandom();
+    }
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {

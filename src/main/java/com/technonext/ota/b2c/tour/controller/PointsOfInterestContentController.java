@@ -4,6 +4,7 @@ import com.technonext.ota.b2c.tour.dto.response.PointsOfInterestContentProjectio
 import com.technonext.ota.b2c.tour.service.iservice.PointsOfInterestContentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,16 @@ import static com.technonext.ota.b2c.tour.constant.APIEndpointConstants.PONT_OF_
 
 @RestController
 @RequestMapping(PONT_OF_INTEREST_CONTENT_ENDPOINT)
+@RequiredArgsConstructor
 @Tag(name = "PointsOfInterest Controller", description = "API Endpoints for PointsOfInterest Content related operations.")
 public class PointsOfInterestContentController {
     private final PointsOfInterestContentService pointsOfInterestContentService;
 
-    public PointsOfInterestContentController(PointsOfInterestContentService pointsOfInterestContentService) {
-        this.pointsOfInterestContentService = pointsOfInterestContentService;
-    }
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for Tour PointsOfInterest Content searching")
     public ResponseEntity<List<PointsOfInterestContentProjection>> getPointsOfInterestContentById(
-            @RequestParam(name="pointsOfInterestId") Long pointsOfInterestId){
+        @RequestParam(name = "pointsOfInterestId") Long pointsOfInterestId) {
         return new ResponseEntity<>(pointsOfInterestContentService.getPointsOfInterestContentById(
-                                    pointsOfInterestId), HttpStatus.OK);
+            pointsOfInterestId), HttpStatus.OK);
     }
 }
