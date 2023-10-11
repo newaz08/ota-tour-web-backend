@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryStatus {
-    NEW(1),
-    LEAD_GENERATED(2),
-    BOOKED(3),
-    DECLINED(4),
-    CLOSED(5);
+    NEW(0),
+    LEAD_GENERATED(1),
+    BOOKED(2),
+    DECLINED(3),
+    CLOSED(4);
     private final Integer value;
 
     InquiryStatus(Integer value) {

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryFor {
-    TOUR_PACKAGES(1), UMRAH_PACKAGES(2);
+    TOUR_PACKAGES(0), UMRAH_PACKAGES(1);
     private final Integer value;
 
     InquiryFor(Integer value) {

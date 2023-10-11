@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryChannel {
-    WEB(1), MOBILE(2);
+    WEB(0), MOBILE(1);
     private final Integer value;
 
     InquiryChannel(Integer value) {
