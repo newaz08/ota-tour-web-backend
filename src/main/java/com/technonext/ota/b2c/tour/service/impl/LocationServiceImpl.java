@@ -1,5 +1,6 @@
 package com.technonext.ota.b2c.tour.service.impl;
 
+import com.technonext.ota.b2c.tour.dto.response.LocationProjection;
 import com.technonext.ota.b2c.tour.dto.response.LocationResponse;
 import com.technonext.ota.b2c.tour.model.entity.Location;
 import com.technonext.ota.b2c.tour.repository.LocationRepository;
@@ -22,7 +23,7 @@ public class LocationServiceImpl implements LocationService{
     @Override
     public List<LocationResponse> getLocationsName(String locationName) {
         Pageable pageable = PageRequest.ofSize(DEFAULT_PAGE_SIZE);
-        Page<Location> locations = locationRepository.findByLocationName(locationName,pageable);
+        Page<LocationProjection> locations = locationRepository.findByLocationName(locationName,pageable);
         return locations.getContent().stream()
                 .map(location -> new LocationResponse(
                         location.getId(),
