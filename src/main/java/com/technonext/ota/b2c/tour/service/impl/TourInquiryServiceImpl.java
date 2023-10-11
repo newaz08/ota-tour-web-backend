@@ -32,7 +32,7 @@ public class TourInquiryServiceImpl implements TourInquiryService {
             .requirement(tourInquiryRequest.requirements())
             .inquiryLocation(tourInquiryRequest.destination())
             .customerLocation(tourInquiryRequest.departure())
-            .inquiryStatus(InquiryStatus.NEW_INQUIRY)
+            .inquiryStatus(InquiryStatus.NEW)
             .b2cUserId(1L)
             .isDeleted(false)
             .isActive(true)
