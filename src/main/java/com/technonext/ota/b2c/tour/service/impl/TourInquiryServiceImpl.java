@@ -8,20 +8,25 @@ import com.technonext.ota.b2c.tour.model.enums.InquiryStatus;
 import com.technonext.ota.b2c.tour.model.enums.InquiryType;
 import com.technonext.ota.b2c.tour.repository.TourInquiryRepository;
 import com.technonext.ota.b2c.tour.service.iservice.TourInquiryService;
+import com.technonext.ota.b2c.tour.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class TourInquiryServiceImpl implements TourInquiryService {
     private final TourInquiryRepository tourInquiryRepository;
+    private final CommonUtil commonUtil;
 
     @Override
     public void createCustomTourRequest(CustomTourInquiryRequest tourInquiryRequest) {
+        Long countOnDateOfInquiry = tourInquiryRepository.countByDateOfInquiryAfter(LocalDate.now().atStartOfDay());
+        String inquiryNumber = commonUtil.generateUniqueNumber("TCI", countOnDateOfInquiry + 1, 5);
         TourInquiry tourInquiry = TourInquiry.builder()
-            .inquiryChannel(InquiryChannel.WEB)
+            .inquiryChannel(InquiryChannel.MOBILE)
             .inquiryType(InquiryType.GENERAL)
             .inquiryFor(InquiryFor.TOUR_PACKAGES)
             .name(tourInquiryRequest.firstName() + " " + tourInquiryRequest.lastName())
@@ -33,8 +38,9 @@ public class TourInquiryServiceImpl implements TourInquiryService {
             .inquiryLocation(tourInquiryRequest.destination())
             .customerLocation(tourInquiryRequest.departure())
             .inquiryStatus(InquiryStatus.NEW)
-            .inquiryId("TCI2309202399999")  // to do
-            .b2cUserId(1L)  // to do
+            .inquiryNumber(inquiryNumber)
+             //TODO : cannot be parsed from the btc service
+            .b2cUserId(1L)
             .build();
         tourInquiryRepository.save(tourInquiry);
     }

@@ -4,13 +4,14 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryStatus {
-    NEW("New"),
-    LEAD_GENERATED("Lead Generated"),
-    BOOKED("Booked"),
-    CLOSED("Closed");
-    private final String value;
+    NEW(1),
+    LEAD_GENERATED(2),
+    BOOKED(3),
+    DECLINED(4),
+    CLOSED(5);
+    private final Integer value;
 
-    InquiryStatus(String value) {
+    InquiryStatus(Integer value) {
         this.value = value;
     }
 }

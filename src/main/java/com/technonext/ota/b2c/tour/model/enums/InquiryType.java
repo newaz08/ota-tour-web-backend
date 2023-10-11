@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryType {
-    GENERAL("General"), TOUR_SPECIFIC("Tour Specific");
-    private final String value;
+    GENERAL(1), TOUR_SPECIFIC(2);
+    private final Integer value;
 
-    InquiryType(String value) {
+    InquiryType(Integer value) {
         this.value = value;
     }
 }

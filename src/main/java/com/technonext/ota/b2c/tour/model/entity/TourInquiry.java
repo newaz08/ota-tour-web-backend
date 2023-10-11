@@ -18,9 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLInsert;
-import org.hibernate.annotations.Where;
+
 
 import java.time.LocalDateTime;
 
@@ -31,18 +29,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Where(clause = "isDeleted = false")
-@SQLInsert(sql = "UPDATE tour.tourInquiry set IsActive = 1 and IsDeleted = 0 where Id=? ")
-@SQLDelete(sql = "UPDATE tour.tourInquiry SET IsDELETED = 1 WHERE Id=? ")
 public class TourInquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryChannel inquiryChannel;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryType inquiryType;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryFor inquiryFor;
     private LocalDateTime dateOfInquiry;
     @ManyToOne
@@ -58,15 +53,13 @@ public class TourInquiry {
     private LocalDateTime preferredJourneyDate;
     private String customerLocation;
     private String requirement;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InquiryStatus inquiryStatus;
     private LocalDateTime nextReminderDate;
     private Integer noOfTravellers;
     private Integer noOfAdults;
     private Integer noOfChilds;
     private Integer noOfInfants;
-    private String inquiryId;
-    private Boolean isActive = true;
-    private Boolean isDeleted = false;
+    private String inquiryNumber;
     private Long b2cUserId;
 }
