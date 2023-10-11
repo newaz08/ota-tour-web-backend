@@ -4,7 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum InquiryStatus {
-    NEW_INQUIRY("New Inquiry"), LEAD_GENERATED("Lead Generated"), BOOKED("Booked"), CLOSED("Closed");
+    NEW("New"),
+    LEAD_GENERATED("Lead Generated"),
+    BOOKED("Booked"),
+    CLOSED("Closed");
     private final String value;
 
     InquiryStatus(String value) {
