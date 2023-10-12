@@ -82,6 +82,7 @@ public class TourInquiryServiceImpl implements TourInquiryService {
         // TODO: will be implemented when get location information
         tourInquiry.setInquiryLocation("Tanguar Haoar");
         tourInquiry.setInquiryNumber(tourInquiryNumber);
+        tourInquiry.setPreferredJourneyDate(LocalDateTime.now());
         tourInquiry.setB2cUserId(1L);
 //        tourInquiry.setLocationId(request.locationId());
 //        tourInquiry.setTourPackageId(request.tourPackageId());
