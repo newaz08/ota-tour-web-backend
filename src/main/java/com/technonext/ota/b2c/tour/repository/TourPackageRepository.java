@@ -52,8 +52,8 @@ public interface TourPackageRepository extends JpaRepository<TourPackage, Intege
             "and tp.IsActive = 1\n" +
             "         LEFT JOIN tour.TourCountry tc ON tp.TourCountryId = tc.id\n" +
             "         LEFT JOIN tour.TourCity tct ON tc.Id = tct.TourCountryId\n" +
-            "         LEFT JOIN (SELECT TOP 1 Id, Path FROM tour.TourPackageContent WHERE IsFeatured = 1) tpackc " +
-            "ON tp.Id = tpackc.Id where tp.IsDeleted=0 for json path )\n" +
+            "         LEFT JOIN (SELECT TOP 1 Id, TourPackageId,Path FROM tour.TourPackageContent WHERE IsFeatured = 1) tpackc " +
+            "ON tp.Id = tpackc.TourPackageId where tp.IsDeleted=0 for json path )\n" +
             "SELECT @json = src.n\n" +
             "FROM src\n" +
             "SELECT @json, LEN(@json);\n",nativeQuery = true)
