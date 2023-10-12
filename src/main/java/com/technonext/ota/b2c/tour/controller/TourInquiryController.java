@@ -32,7 +32,7 @@ public class TourInquiryController {
             HttpStatus.CREATED);
     }
 
-    @PostMapping("/tourPackageInquiry")
+    @PostMapping("/tour-package-inquiry")
     public void createTourPackageInquiry(@Validated @RequestBody TourPackageInquiryRequest request){
         tourInquiryService.createTourPackageInquiry(request);
     }

@@ -9,13 +9,10 @@ import com.technonext.ota.b2c.tour.model.enums.InquiryChannel;
 import com.technonext.ota.b2c.tour.model.enums.InquiryFor;
 import com.technonext.ota.b2c.tour.model.enums.InquiryStatus;
 import com.technonext.ota.b2c.tour.model.enums.InquiryType;
-import com.technonext.ota.b2c.tour.repository.LocationRepository;
 import com.technonext.ota.b2c.tour.repository.TourInquiryChildAgeRepository;
 import com.technonext.ota.b2c.tour.repository.TourInquiryRepository;
-import com.technonext.ota.b2c.tour.repository.TourPackageRepository;
 import com.technonext.ota.b2c.tour.service.iservice.TourInquiryService;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +29,6 @@ import static com.technonext.ota.b2c.tour.constant.ApplicationConstant.TOUR_INQU
 public class TourInquiryServiceImpl implements TourInquiryService {
     private final TourInquiryRepository tourInquiryRepository;
     private final TourInquiryChildAgeRepository childAgeRepository;
-    private final LocationRepository locationRepository;
-    private final TourPackageRepository tourPackageRepository;
     private final TourInquiryMapper mapper;
     private final CommonUtil commonUtil;
 
@@ -41,7 +36,6 @@ public class TourInquiryServiceImpl implements TourInquiryService {
     public void createCustomTourRequest(CustomTourInquiryRequest tourInquiryRequest) {
         Long countOnDateOfInquiry = tourInquiryRepository.countByDateOfInquiryAfter(LocalDate.now().atStartOfDay());
         String inquiryNumber = commonUtil.generateUniqueNumber(CUSTOM_INQUIRY_INITIAL, countOnDateOfInquiry + 1, 5);
-        String tourInquiryNumber = commonUtil.generateUniqueNumber(TOUR_INQUIRY_INITIAL , countOnDateOfInquiry + 1,5);
         TourInquiry tourInquiry = TourInquiry.builder()
             .inquiryChannel(InquiryChannel.MOBILE)
             .inquiryType(InquiryType.GENERAL)
@@ -66,33 +60,36 @@ public class TourInquiryServiceImpl implements TourInquiryService {
     public void createTourPackageInquiry(TourPackageInquiryRequest request) {
         Long countOnDateOfInquiry = tourInquiryRepository.countByDateOfInquiryAfter(LocalDate.now().atStartOfDay());
         String tourInquiryNumber = commonUtil.generateUniqueNumber(TOUR_INQUIRY_INITIAL , countOnDateOfInquiry + 1,5);
-//        Location location = locationRepository.findById(request.locationId())
-//            .orElseThrow(() -> new ResourceNotFoundException(ExceptionConstant.LOCATION_NOT_FOUND));
-//
-//        TourPackage tourPackage = tourPackageRepository.findById(request.tourPackageId())
-//            .orElseThrow(() -> new ResourceNotFoundException(ExceptionConstant.TOUR_PACKAGE_NOT_FOUND));
 
-        TourInquiry tourInquiry = mapper.toTourPackageInquiryEntity(request);
-        tourInquiry.setNoOfTravellers(request.noOfAdults() + request.noOfChilds() + request.noOfInfants());
-        tourInquiry.setDateOfInquiry(LocalDateTime.now());
-        tourInquiry.setInquiryChannel(InquiryChannel.WEB);
-        tourInquiry.setInquiryFor(InquiryFor.TOUR_PACKAGES);
-        tourInquiry.setInquiryType(InquiryType.TOUR_SPECIFIC);
-        tourInquiry.setInquiryStatus(InquiryStatus.NEW);
-        // TODO: will be implemented when get location information
-        tourInquiry.setInquiryLocation("Tanguar Haoar");
-        tourInquiry.setInquiryNumber(tourInquiryNumber);
-        tourInquiry.setPreferredJourneyDate(LocalDateTime.now());
-        tourInquiry.setB2cUserId(1L);
-//        tourInquiry.setLocationId(request.locationId());
-//        tourInquiry.setTourPackageId(request.tourPackageId());
+        TourInquiry tourInquiry = TourInquiry.builder()
+            .name(request.name())
+            .email(request.email())
+            .mobileNumber(request.mobileNumber())
+            .requirement(request.requirement())
+            .noOfAdults(request.noOfAdults())
+            .noOfChilds(request.noOfChilds())
+            .noOfInfants(request.noOfInfants())
+            .noOfTravellers(
+                request.noOfAdults() + request.noOfChilds() + request.noOfInfants()
+            )
+            .dateOfInquiry(LocalDateTime.now())
+            .inquiryChannel(InquiryChannel.WEB)
+            .inquiryFor(InquiryFor.TOUR_PACKAGES)
+            .inquiryType(InquiryType.TOUR_SPECIFIC)
+            .inquiryStatus(InquiryStatus.NEW)
+            .inquiryLocation(request.inquiryLocation())
+            .inquiryNumber(tourInquiryNumber)
+            .preferredJourneyDate(LocalDateTime.now())
+            //TODO : cannot be parsed from the btc service
+            .b2cUserId(1L)
+            .build();
         tourInquiryRepository.save(tourInquiry);
 
         if(Objects.nonNull(request.tourInquiryChildAges())){
             List<TourInquiryChildAge> childAgeList = request.tourInquiryChildAges().stream()
-                .map(inquiryChileAge -> TourInquiryChildAge
+                .map(inquiryChildAge -> TourInquiryChildAge
                     .builder()
-                    .childAge(inquiryChileAge)
+                    .childAge(inquiryChildAge)
                     .tourInquiry(tourInquiry)
                     .build())
                 .toList();
