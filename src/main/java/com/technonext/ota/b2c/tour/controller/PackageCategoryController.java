@@ -30,7 +30,6 @@ public class PackageCategoryController {
     public ResponseEntity<List<PackageCategoryResponse>> getAllTourPackageCategory(){
         return new ResponseEntity<>(packageCategoryService.getAllTourPackageCategory(false), HttpStatus.OK);
     }
-
     @GetMapping(" ")
     @Operation(summary = "API Endpoints for HajjUmrah Package Category")
     public ResponseEntity<List<PackageCategoryResponse>> getAllHajjUmrahPackageCategory(){

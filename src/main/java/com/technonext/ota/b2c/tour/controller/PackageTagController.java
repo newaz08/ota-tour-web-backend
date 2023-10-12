@@ -5,7 +5,6 @@ import com.technonext.ota.b2c.tour.dto.response.PackageTagResponse;
 import com.technonext.ota.b2c.tour.dto.response.TourPackageTagProjection;
 import com.technonext.ota.b2c.tour.service.iservice.PackageTagService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
