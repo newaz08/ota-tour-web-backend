@@ -16,10 +16,16 @@ public interface PackageTagRepository extends JpaRepository<PackageTag,Short> {
 
     @Query(value = "select pt.Id, pt.TagName as name,count(pt.id) as count from tour.TourPackage as tp" +
             " inner join tour.TourPackageWiseTagMapping as tpwtm on tp.id = tpwtm.TourPackageId" +
-            " and tp.LocationId = :locationId" +
+            " and(:locationId is null or tp.LocationId = :locationId) \n" +
+            " and (:isNull=1 or tp.Id in(:packageIds))\n" +
+            " and(tp.IsHajjUmrahPackage=:isForHajjUmrah)\n"+
             " inner join tour.PackageTag pt on pt.id = tpwtm.PackageTagId" +
             " group by pt.id,pt.TagName",nativeQuery = true)
-    List<PackageTagResponse> findPackageTagWithCountByLocationId(Integer locationId);
+    List<PackageTagResponse> findPackageTagWithCountByLocationId(
+            @Param("locationId") Integer locationId,
+            @Param("packageIds") List<Integer> packageIds,
+            @Param("isNull") Integer isNull,
+            @Param("isForHajjUmrah") boolean isForHajjUmrah);
 
     @Query(value = "select pt.Id, pt.TagName from tour.TourPackage as tp \n " +
             "inner join tour.TourPackageWiseTagMapping as tpwtm on tp.id = tpwtm.TourPackageId\n" +

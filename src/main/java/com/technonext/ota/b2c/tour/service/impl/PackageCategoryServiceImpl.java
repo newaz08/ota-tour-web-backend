@@ -14,8 +14,8 @@ public class PackageCategoryServiceImpl implements PackageCategoryService {
    private final PackageCategoryRepository packageCategoryRepository;
 
     @Override
-    public List<PackageCategoryResponse> getAllTourPackageCategory() {
-         return packageCategoryRepository.findAllTourPackageCategory();
+    public List<PackageCategoryResponse> getAllTourPackageCategory(boolean isForHajjUmrah) {
+         return packageCategoryRepository.findAllPackageCategory(isForHajjUmrah);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PackageCategoryController {
     @GetMapping("/search")
     @Operation(summary = "API Endpoints for Tour Package Category")
     public ResponseEntity<List<PackageCategoryResponse>> getAllTourPackageCategory(){
-        return new ResponseEntity<>(packageCategoryService.getAllTourPackageCategory(), HttpStatus.OK);
+        return new ResponseEntity<>(packageCategoryService.getAllTourPackageCategory(false), HttpStatus.OK);
     }
 
     @GetMapping(" ")

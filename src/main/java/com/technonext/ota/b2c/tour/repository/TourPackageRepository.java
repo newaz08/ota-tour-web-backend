@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface TourPackageRepository extends JpaRepository<TourPackage, Integer> {
     @Query(value = "DECLARE @json nvarchar(max);\n" +
             ";WITH src (n) AS\n" +
@@ -14,7 +16,7 @@ public interface TourPackageRepository extends JpaRepository<TourPackage, Intege
             "    tp.PackageName AS title,\n" +
             "    tc.Name AS country,\n" +
             "    tct.CityName AS city,\n" +
-            "    tp.SuitableFor AS suitableFor,\n" +
+           /* "    tp.SuitableFor AS suitableFor,\n" +*/
             "    tp.CancellationText AS cancellationText,\n" +
             "    tp.NoOfPeopleForDisplay AS noOfPeopleForDisplay,\n" +
             "    format(tp.PackageStartDate,'yyyy-MM') As packageStart,\n" +
@@ -48,8 +50,9 @@ public interface TourPackageRepository extends JpaRepository<TourPackage, Intege
             "        FOR JSON AUTO \n" +
             "    ) AS categoryList\n" +
             "FROM tour.TourPackage tp\n" +
-            "         INNER JOIN tour.Location loc ON tp.LocationId = loc.id and tp.LocationId=:locationId \n" +
-            "and tp.IsActive = 1\n" +
+            "         INNER JOIN tour.Location loc ON tp.LocationId = loc.id and(:locationId is null or tp.LocationId=:locationId) \n" +
+            "and tp.IsActive = 1 and tp.IsHajjUmrahPackage=:isForHajjUmrah\n" +
+            "and(:isNull = 1 or tp.Id in(:packageIds) ) \n" +
             "         LEFT JOIN tour.TourCountry tc ON tp.TourCountryId = tc.id\n" +
             "         LEFT JOIN tour.TourCity tct ON tc.Id = tct.TourCountryId\n" +
             "         LEFT JOIN (SELECT TOP 1 Id, Path FROM tour.TourPackageContent WHERE IsFeatured = 1) tpackc " +
@@ -58,22 +61,34 @@ public interface TourPackageRepository extends JpaRepository<TourPackage, Intege
             "FROM src\n" +
             "SELECT @json, LEN(@json);\n",nativeQuery = true)
     String getLocationWiseTourPackages(
-            @Param("locationId") Integer locationId, @Param("baseUrl") String baseUrl);
+            @Param("locationId") Integer locationId,
+            @Param("baseUrl") String baseUrl,
+            @Param("packageIds") List<Integer> packageIds,
+            @Param("isForHajjUmrah") boolean isForHajjUmrah,
+            @Param("isNull") Integer isNull);
 
     @Query(value = "select tp.PackageName as packageName,FORMAT(tp.PackageEndDate,'dd MMM yyyy') as packageEndDate," +
             "concat(tp.NoOfDays,' Days') as noOfDays, \n" +
             "concat(tp.NoOfNights,' Nights') as noOfNights,(IIF(tp.CurrentMarkUp = 0.00, \n" +
             "tp.NetPrice + (tp.NetPrice * ((SELECT TOP 1 DefaultMarkup FROM tour.TourGeneralPolicy) / 100)), \n" +
-            "tp.NetPrice + (tp.NetPrice * (tp.CurrentMarkUp) / 100))) as basePrice,tp.SuitableFor as suitableFor, " +
+            "tp.NetPrice + (tp.NetPrice * (tp.CurrentMarkUp) / 100))) as basePrice,ta.Name as suitableFor, " +
             "tp.CancellationText as cancellationText,tp.NoOfPeopleForDisplay as noOfPeopleForDisplay," +
             "tp.GeneralDiscountPercentage as discountPercent," +
             "tp.Disclaimer as disclaimer, tp.PackageOverview as packageOverview, tp.Inclusion as inclusion, \n" +
             "tp.Exclusion as exclusion, tp.Traveltips as travelTips,location.LocationMapLink as locationMapLink \n" +
             "from tour.TourPackage as tp inner join tour.Location as location\n" +
-            "on tp.LocationId = location.Id and tp.Id = :tourPackageId",nativeQuery = true)
+            "on tp.LocationId = location.Id and tp.Id = :tourPackageId\n" +
+            "inner join tour.TourAudience ta on tp.TourAudienceId = ta.id",nativeQuery = true)
     PackageDetailsProjection getTourPackageDetailsById(@Param("tourPackageId") Integer tourPackageId);
 
-    @Query(value = "select tp.OtherPolicy from tour.TourPackage tp where tp.Id=:tourPackageId", nativeQuery = true)
+    @Query(value = """
+    select tp.OtherPolicy from tour.TourPackage tp where tp.Id=:tourPackageId""", nativeQuery = true)
     String getPackageOtherPolicy(@Param("tourPackageId") Integer tourPackageId);
+
+    @Query(value = """
+        select Id from tour.TourPackage where IsActive=1 and IsDeleted=0 and IsHajjUmrahPackage=:isForHajjUmrah
+        and PackageBookingMethod=2;
+    """,nativeQuery = true)
+    List<Integer> getHajjUmrahOrTourPackageIds(@Param("isForHajjUmrah") boolean isForHajjUmrah);
 
 }

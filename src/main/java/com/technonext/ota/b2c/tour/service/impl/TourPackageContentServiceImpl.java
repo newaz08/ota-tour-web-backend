@@ -27,7 +27,7 @@ public class TourPackageContentServiceImpl implements TourPackageContentService 
 
     @Override
     public PackagePriceLimitResponse getPackagePriceLimit(Integer locationId) {
-        return tourPackageContentRepository.getPackagePriceLimitByLocation(locationId);
+        return tourPackageContentRepository.getPackagePriceLimitByLocation(locationId, null,1, false);
     }
 
 }

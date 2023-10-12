@@ -37,8 +37,8 @@ public class TourPackage extends AuditingEntity {
     @Enumerated(EnumType.STRING)
     private PackageMode packageMode;
 
-    @Enumerated(EnumType.STRING)
-    private SuitableFor suitableFor;
+    //@Enumerated(EnumType.STRING)
+    //private SuitableFor suitableFor;
 
     private String cancellationText;
 
@@ -83,4 +83,5 @@ public class TourPackage extends AuditingEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tourCityId")
     private TourCity city;
+
 }

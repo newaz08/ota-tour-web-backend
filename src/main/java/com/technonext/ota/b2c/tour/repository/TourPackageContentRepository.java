@@ -11,14 +11,26 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TourPackageContentRepository extends JpaRepository<TourPackageContent, Integer> {
-    @Query(value = "SELECT tpc.ContentType, tpc.MimeType,concat(:baseUrl,tpc.Path) as Path " +
-                    "FROM tour.TourPackageContent as tpc where tpc.TourPackageId=:tourPackageId", nativeQuery = true)
+    @Query(value = "SELECT tpc.ContentType, tpc.MimeType,concat(:baseUrl,tpc.Path) as Path \n" +
+            "FROM tour.TourPackageContent as tpc where tpc.TourPackageId=:tourPackageId\n", nativeQuery = true)
     List<TourPackageContentResponse> findTourPackageContent(Integer tourPackageId, String baseUrl);
 
-    @Query(value = "select max(ft.basePrice) as max,min(ft.basePrice) as min from" +
-            " (select (IIF(tp.CurrentMarkUp = 0.00, +" +
-            " tp.NetPrice + (tp.NetPrice * ((select top 1 DefaultMarkup from tour.TourGeneralPolicy) / 100))," +
-            " tp.NetPrice + (tp.NetPrice * (tp.CurrentMarkUp) / 100))) As basePrice" +
-            " from tour.TourPackage as tp  where tp.LocationId = :locationId) as ft",nativeQuery = true)
-    PackagePriceLimitResponse getPackagePriceLimitByLocation(@Param("locationId") Integer locationId);
+    @Query(value = "SELECT MAX(basePrice) AS max, MIN(basePrice) AS min\n" +
+            "FROM (\n" +
+            "         SELECT (\n" +
+            "                    IIF(tp.CurrentMarkUp = 0.00, tp.NetPrice + (tp.NetPrice * (SELECT TOP 1 DefaultMarkup\n" +
+            "                                         FROM tour.TourGeneralPolicy) / 100),\n" +
+            "                        tp.NetPrice + (tp.NetPrice * (tp.CurrentMarkUp / 100)))\n" +
+            "                    ) AS basePrice\n" +
+            "         FROM tour.TourPackage AS tp\n" +
+            "         WHERE\n" +
+            "             ((:locationId is null or tp.LocationId = :locationId)\n" +
+            "                 and\n" +
+            "              (:isNull = 1 or tp.Id IN (:packageIds)\n" +
+            "                 )) and(tp.IsHajjUmrahPackage=:isForHajjUmrah)\n" +
+            "     ) AS ft;", nativeQuery = true)
+    PackagePriceLimitResponse getPackagePriceLimitByLocation(
+            @Param("locationId") Integer locationId,
+            @Param("packageIds") List<Integer> packageIds,
+            @Param("isNull") Integer isNull, boolean isForHajjUmrah);
 }
