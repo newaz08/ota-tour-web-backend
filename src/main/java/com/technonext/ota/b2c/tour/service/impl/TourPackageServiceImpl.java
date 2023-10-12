@@ -30,13 +30,17 @@ public class TourPackageServiceImpl implements TourPackageService {
     private final TourPackageContentRepository tourPackageContentRepository;
 
     @Override
-    public CompletableFuture<TourPackageResponse> getLocationWiseTourPackages(int locationId)
+    public CompletableFuture<TourPackageResponse> getLocationOrPackageWiseTourOrHajjUmarhPackages(
+            Integer locationId, List<Integer> packageIds, boolean isForHajjUmrah)
                     throws JsonProcessingException {
 
-        CompletableFuture<List<PackageCategoryResponse>> categoryFuture = fetchPackageCategoriesAsync();
-        CompletableFuture<PackagePriceLimitResponse> priceRangeFuture = fetchPackPriceRangeAsync(locationId);
-        CompletableFuture<List<PackageTagResponse>> tagFuture = fetchPackageTagsAsync(locationId);
-        CompletableFuture<List<TourPackageInfo>> packageResultFuture = fetchPackageResultsAsync(locationId);
+        CompletableFuture<List<PackageCategoryResponse>> categoryFuture = fetchPackageCategoriesAsync(isForHajjUmrah);
+        CompletableFuture<PackagePriceLimitResponse> priceRangeFuture = fetchPackPriceRangeAsync(
+                locationId,packageIds,isForHajjUmrah);
+        CompletableFuture<List<PackageTagResponse>> tagFuture = fetchPackageTagsAsync(
+                locationId,packageIds,isForHajjUmrah);
+        CompletableFuture<List<TourPackageInfo>> packageResultFuture = fetchPackageResultsAsync(
+                locationId,packageIds,isForHajjUmrah);
 
         return CompletableFuture.allOf(categoryFuture, priceRangeFuture, tagFuture, packageResultFuture)
                 .thenApplyAsync(ignoredVoid -> {
@@ -55,41 +59,49 @@ public class TourPackageServiceImpl implements TourPackageService {
                 });
     }
 
-
     @Async
-    public CompletableFuture<List<TourPackageInfo>> fetchPackageResultsAsync(Integer locationId)
+    public CompletableFuture<List<TourPackageInfo>> fetchPackageResultsAsync(
+            Integer locationId,List<Integer> packageIds, boolean isForHajjUmrah)
                 throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-
-        return CompletableFuture.completedFuture(objectMapper.readValue(
-                tourPackageRepository.getLocationWiseTourPackages(locationId, baseUrl), new TypeReference<>() {}));
+        int isNull = packageIds == null ? 1 : 0;
+        List<TourPackageInfo> tourPackageInfos = objectMapper.readValue(
+                tourPackageRepository.getLocationWiseTourPackages(
+                        locationId, baseUrl,packageIds,isForHajjUmrah,isNull), new TypeReference<>() {});
+        tourPackageInfos = tourPackageInfos == null ? Collections.emptyList() : tourPackageInfos;
+        return CompletableFuture.completedFuture(tourPackageInfos)
+                .exceptionally(ex -> Collections.emptyList());
     }
 
     @Async
-    public CompletableFuture<List<PackageCategoryResponse>> fetchPackageCategoriesAsync() {
+    public CompletableFuture<List<PackageCategoryResponse>> fetchPackageCategoriesAsync(boolean isForHajjUmrah) {
         List<PackageCategoryResponse> categories =
                 packageCategoryRepository
-                        .findAllTourPackageCategory();
+                        .findAllPackageCategory(isForHajjUmrah);
         return CompletableFuture.completedFuture(categories).exceptionally(ex -> Collections.emptyList());
     }
 
     @Async
-    public CompletableFuture<List<PackageTagResponse>> fetchPackageTagsAsync(Integer locationId) {
-
-        List<PackageTagResponse> tags = packageTagRepository.findPackageTagWithCountByLocationId(locationId);
+    public CompletableFuture<List<PackageTagResponse>> fetchPackageTagsAsync(
+                            Integer locationId,List<Integer> packageIds, boolean isForHajjUmrah) {
+        int isNull = packageIds == null ? 1 : 0;
+        List<PackageTagResponse> tags = packageTagRepository.findPackageTagWithCountByLocationId(
+                locationId,packageIds,isNull, isForHajjUmrah);
         return CompletableFuture.completedFuture(tags).exceptionally(ex -> Collections.emptyList());
     }
 
     @Async
-    public CompletableFuture<PackagePriceLimitResponse> fetchPackPriceRangeAsync(Integer locationId) {
-
-        PackagePriceLimitResponse priceRange = tourPackageContentRepository.getPackagePriceLimitByLocation(locationId);
+    public CompletableFuture<PackagePriceLimitResponse> fetchPackPriceRangeAsync(
+            Integer locationId, List<Integer> packageIds, boolean isForHajjUmrah) {
+        int isNull = packageIds == null ? 1 : 0;
+        PackagePriceLimitResponse priceRange = tourPackageContentRepository.getPackagePriceLimitByLocation(
+                                locationId,packageIds, isNull, isForHajjUmrah);
         return CompletableFuture.completedFuture(priceRange).exceptionally(ex -> new PackagePriceLimitResponse() {
             @Override
             public Double getMin() {
-                return 500d;
+                return 100d;
             }
 
             @Override
@@ -97,5 +109,10 @@ public class TourPackageServiceImpl implements TourPackageService {
                 return 100000d;
             }
         });
+    }
+
+    @Override
+    public List<Integer> getHajjUmrahOrTourPackageIds(boolean isForHajjUmrah) {
+        return tourPackageRepository.getHajjUmrahOrTourPackageIds(isForHajjUmrah);
     }
 }

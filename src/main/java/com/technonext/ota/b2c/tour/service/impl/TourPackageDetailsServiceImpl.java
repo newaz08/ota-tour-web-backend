@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -31,51 +28,55 @@ public class TourPackageDetailsServiceImpl implements TourPackageDetailsService 
     @Override
     public CompletableFuture<TourPackageDetailsResponse> getTourPackageDetailsInfo(Integer tourPackageId) {
 
-        TourPackage tourPackage = tourPackageRepository.findById(tourPackageId).orElse(new TourPackage());
-        CompletableFuture<List<TourPackageContentResponse>> tourPackageContentFuture =
-                                                getTourPackageContent(tourPackageId);
+        Optional<TourPackage> tourPackage = tourPackageRepository.findById(tourPackageId);
 
-        CompletableFuture<PackageDetailsProjection> packageDetailsFuture =
-                getTourPackageDetails(tourPackageId);
+        return tourPackage.map( tourPack -> {
+            CompletableFuture<List<TourPackageContentResponse>> tourPackageContentFuture =
+                    getTourPackageContent(tourPackageId);
+
+            CompletableFuture<PackageDetailsProjection> packageDetailsFuture =
+                    getTourPackageDetails(tourPackageId);
 
 
-        CompletableFuture<List<PointsOfInterestProjection>>
-                    pointOfInterestFuture = getTourPackagePointOfInterest(tourPackage.getLocation().getId());
+            CompletableFuture<List<PointsOfInterestProjection>>
+                    pointOfInterestFuture = getTourPackagePointOfInterest(tourPack.getLocation().getId());
 
-        CompletableFuture<List<TourPackageTagProjection>> tourPackageTagListFuture = getTourPackageTagList(tourPackageId);
-        CompletableFuture<List<TermsPolicyResponse>>  policiesFuture = getTermPolicy(tourPackageId);
+            CompletableFuture<List<TourPackageTagProjection>> tourPackageTagListFuture = getTourPackageTagList(tourPackageId);
+            CompletableFuture<List<TermsPolicyResponse>>  policiesFuture = getTermPolicy(tourPackageId);
 
-        return CompletableFuture.allOf(tourPackageContentFuture, packageDetailsFuture, tourPackageTagListFuture,
-                                                                policiesFuture)
-                .thenApplyAsync(tourDetails -> {
-                    PackageDetailsProjection packageDetailsProjection = packageDetailsFuture.join();
-                    PackageDescriptionResponse descriptionResponse =
-                            PackageDescriptionResponse.builder()
-                                    .packageName(packageDetailsProjection.getPackageName())
-                                    .noOfDays(packageDetailsProjection.getNoOfDays())
-                                    .noOfNights(packageDetailsProjection.getNoOfNights())
-                                    .noOfPeopleForDisplay(packageDetailsProjection.getNoOfPeopleForDisplay())
-                                    .basePrice(packageDetailsProjection.getBasePrice())
-                                    .cancellationText(packageDetailsProjection.getCancellationText())
-                                    .suitableFor(packageDetailsProjection.getSuitableFor())
-                                    .generalDiscountPercentage(packageDetailsProjection.getGeneralDiscountPercentage())
-                                    .packageEndDate(packageDetailsProjection.getPackageEndDate())
-                                    .packageOverview(packageDetailsProjection.getPackageOverview())
-                                    .desClaimer(packageDetailsProjection.getDisclaimer())
-                                    .inclusion(packageDetailsProjection.getInclusion())
-                                    .exclusion(packageDetailsProjection.getExclusion())
-                                    .locationMapLink(packageDetailsProjection.getLocationMapLink())
-                                    .pointOfInterest(pointOfInterestFuture.join())
-                                    .travelTips(packageDetailsProjection.getTravelTips())
-                                               .build();
+            return CompletableFuture.allOf(tourPackageContentFuture, packageDetailsFuture, tourPackageTagListFuture,
+                            policiesFuture)
+                    .thenApplyAsync(tourDetails -> {
+                        PackageDetailsProjection packageDetailsProjection = packageDetailsFuture.join();
+                        PackageDescriptionResponse descriptionResponse =
+                                PackageDescriptionResponse.builder()
+                                        .packageName(packageDetailsProjection.getPackageName())
+                                        .noOfDays(packageDetailsProjection.getNoOfDays())
+                                        .noOfNights(packageDetailsProjection.getNoOfNights())
+                                        .noOfPeopleForDisplay(packageDetailsProjection.getNoOfPeopleForDisplay())
+                                        .basePrice(packageDetailsProjection.getBasePrice())
+                                        .cancellationText(packageDetailsProjection.getCancellationText())
+                                        .suitableFor(packageDetailsProjection.getSuitableFor())
+                                        .generalDiscountPercentage(packageDetailsProjection.getGeneralDiscountPercentage())
+                                        .packageEndDate(packageDetailsProjection.getPackageEndDate())
+                                        .packageOverview(packageDetailsProjection.getPackageOverview())
+                                        .desClaimer(packageDetailsProjection.getDisclaimer())
+                                        .inclusion(packageDetailsProjection.getInclusion())
+                                        .exclusion(packageDetailsProjection.getExclusion())
+                                        .locationMapLink(packageDetailsProjection.getLocationMapLink())
+                                        .pointOfInterest(pointOfInterestFuture.join())
+                                        .travelTips(packageDetailsProjection.getTravelTips())
+                                        .build();
 
-                    return TourPackageDetailsResponse.builder()
-                                                     .packageTags(tourPackageTagListFuture.join())
-                                                     .packageContent(tourPackageContentFuture.join())
-                                                     .packageDetails(descriptionResponse)
-                                                     .termsPolicies(policiesFuture.join())
-                            .build();
-                });
+                        return TourPackageDetailsResponse.builder()
+                                .packageTags(tourPackageTagListFuture.join())
+                                .packageContent(tourPackageContentFuture.join())
+                                .packageDetails(descriptionResponse)
+                                .termsPolicies(policiesFuture.join())
+                                .build();
+                    });
+        }).orElse(CompletableFuture.completedFuture(null));
+
     }
 
     @Async

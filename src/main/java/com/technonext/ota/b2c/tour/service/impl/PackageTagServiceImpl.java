@@ -18,7 +18,8 @@ public class PackageTagServiceImpl implements PackageTagService {
     private final PackageTagRepository packageTagRepository;
     @Override
     public List<PackageTagResponse> getPackageTagsByLocation(Integer locationId) {
-        return packageTagRepository.findPackageTagWithCountByLocationId(locationId);
+        return packageTagRepository.findPackageTagWithCountByLocationId(
+                locationId,null,1, false);
     }
 
     @Override
